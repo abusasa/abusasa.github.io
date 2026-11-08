@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="kk" data-mode="light" data-pixel="off">
+<html lang="kk" data-mode="light" data-pixel="on">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,7 +84,7 @@
       <a href="#top" class="nav-brand" data-i18n="name">Абусамат Абдулла</a>
     </div>
     <div class="nav-right">
-      <button class="mini-btn" onclick="togglePixelFont()" id="pixel-btn">Font: Clean</button>
+      <button class="mini-btn" onclick="togglePixelFont()" id="pixel-btn">Font: Minecraft</button>
       <button class="mini-btn" onclick="togglePlusMenu()" id="plus-btn" title="Настройки">+</button>
       <div class="plus-menu" id="plus-menu">
         <button onclick="toggleLang()" id="lang-btn">Тіл / Язык: KZ</button>
@@ -206,7 +206,7 @@
   </div>
 
   <script>
-    let currentLang = 'kz', currentMode = 'light', pixelFontOn = false;
+    let currentLang = 'kz', currentMode = 'light', pixelFontOn = true;
 
     function toggleDrawer() {
       document.getElementById('drawer').classList.toggle('open');
@@ -216,12 +216,6 @@
 
     function togglePlusMenu() {
       document.getElementById('plus-menu').classList.toggle('open');
-      // As requested: clicking '+' opens the menu and sets font to Clean automatically
-      if (document.getElementById('plus-menu').classList.contains('open')) {
-        pixelFontOn = false;
-        document.documentElement.setAttribute('data-pixel', 'off');
-        document.getElementById('pixel-btn').textContent = 'Font: Clean';
-      }
     }
 
     function togglePixelFont() {
