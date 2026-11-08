@@ -40,7 +40,14 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html[data-pixel="on"] * {
       font-family: 'MinecraftFont', monospace;
+    }
+
+    html[data-pixel="off"] * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
     body {
@@ -214,28 +221,41 @@
       padding: 108px 24px 120px;
     }
 
-    /* Avatar + Intro */
+    /* Avatar + Intro (Side-by-side header + full square-squeezed image) */
+    .profile-head {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
     .avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
-      object-position: center 20%;
+      width: 68px;
+      height: 68px;
+      border-radius: 14px;
+      object-fit: fill;
       border: 1px solid var(--border);
       background: #ffffff;
-      margin-bottom: 22px;
+      flex-shrink: 0;
       display: block;
     }
 
-    h1 {
+    .profile-meta h1 {
       font-size: 18px;
       font-weight: normal;
       color: var(--text-bright);
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
+      line-height: 1.3;
+    }
+
+    .profile-subtitle {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.4;
     }
 
     .age-tag {
@@ -475,6 +495,7 @@
       <a href="#" class="nav-brand" data-i18n="name_nav">Абусамат Абдулла</a>
     </div>
     <div class="nav-right">
+      <button class="mini-btn" onclick="togglePixelFont()" id="pixel-btn">Font: Minecraft</button>
       <button class="mini-btn" onclick="spawnOrToggleCreeper()" id="creeper-btn">+ Creeper</button>
       <button class="mini-btn" onclick="toggleLang()" id="lang-btn">KZ</button>
       <button class="mini-btn" onclick="toggleMode()" id="mode-btn">Светлая</button>
@@ -489,11 +510,6 @@
         <div class="drawer-label">Навигация</div>
         <div class="drawer-links">
           <a href="#top" onclick="toggleDrawer()">О себе</a>
-          <a href="#achievements" onclick="toggleDrawer()">Достижения</a>
-          <a href="#projects" onclick="toggleDrawer()">Проекты и CTF</a>
-          <a href="#setup" onclick="toggleDrawer()">Железо и система</a>
-          <a href="#skills" onclick="toggleDrawer()">Учёба и база</a>
-          <a href="#photo" onclick="toggleDrawer()">Фото</a>
         </div>
       </div>
 
@@ -521,13 +537,17 @@
 
   <main class="wrap" id="top">
 
-    <!-- Avatar + Name + 16 y.o. + Bio -->
-    <img src="./avatar.jpg" alt="Абусамат Абдулла" class="avatar">
-
-    <h1>
-      <span data-i18n="name">Абусамат Абдулла</span>
-      <span class="age-tag" data-i18n="age">16 лет</span>
-    </h1>
+    <!-- Avatar + Name + 16 y.o. + Subtitle (Side-by-side) -->
+    <div class="profile-head">
+      <img src="./avatar.jpg" alt="Абусамат Абдулла" class="avatar">
+      <div class="profile-meta">
+        <h1>
+          <span data-i18n="name">Абусамат Абдулла</span>
+          <span class="age-tag" data-i18n="age">16 лет</span>
+        </h1>
+        <div class="profile-subtitle" data-i18n="role">Кибербезопасность, администрирование серверов и разработка</div>
+      </div>
+    </div>
 
     <p class="lead" data-i18n="bio">
       Живу в Актау, учусь на 2 курсе колледжа <strong>Yessenov</strong> (грант, ИС). С 2022 года занимаюсь операционными системами (<strong>Arch Linux</strong>, Windows), кибербезопасностью, администрированием игровых серверов и сборкой прикладных проектов.
@@ -545,8 +565,8 @@
         <svg viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.127.558 4.198 1.617 6.008l-1.617 5.992 6.135-1.594c1.766.969 3.766 1.594 5.865 1.594 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/></svg>
       </a>
 
-      <!-- TikTok (@abuxzc67) -->
-      <a href="https://www.tiktok.com/@abuxzc67" target="_blank" rel="noreferrer" class="social-icon tiktok" title="TikTok (@abuxzc67)">
+      <!-- TikTok (@abuzxc67) -->
+      <a href="https://www.tiktok.com/@abuzxc67" target="_blank" rel="noreferrer" class="social-icon tiktok" title="TikTok (@abuzxc67)">
         <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
       </a>
 
@@ -702,6 +722,15 @@
     }
 
     let currentMode = 'dark';
+    let pixelFontOn = true;
+    document.documentElement.setAttribute('data-pixel', 'on');
+
+    function togglePixelFont() {
+      pixelFontOn = !pixelFontOn;
+      document.documentElement.setAttribute('data-pixel', pixelFontOn ? 'on' : 'off');
+      document.getElementById('pixel-btn').textContent = pixelFontOn ? 'Font: Minecraft' : 'Font: Clean';
+    }
+
     function toggleMode() {
       currentMode = currentMode === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-mode', currentMode);
@@ -714,6 +743,7 @@
         name_nav: "Абусамат Абдулла",
         name: "Абусамат Абдулла",
         age: "16 лет",
+        role: "Кибербезопасность, администрирование серверов и разработка",
         bio: "Живу в Актау, учусь на 2 курсе колледжа <strong>Yessenov</strong> (грант, ИС). С 2022 года занимаюсь операционными системами (<strong>Arch Linux</strong>, Windows), кибербезопасностью, администрированием игровых серверов и сборкой прикладных проектов.",
         sec_ach: "Достижения и опыт",
         a1_t: "WorldSkills Kazakhstan (2 место)",
@@ -750,6 +780,7 @@
         name_nav: "Абусамат Абдулла",
         name: "Абусамат Абдулла",
         age: "16 жас",
+        role: "Киберқауіпсіздік, серверлерді әкімшілендіру және әзірлеу",
         bio: "Ақтауда тұрамын, <strong>Yessenov</strong> колледжінің 2-курсында оқимын (грант, АЖ). 2022 жылдан бері операциялық жүйелермен (<strong>Arch Linux</strong>, Windows), киберқауіпсіздікпен, ойын серверлерін әкімшілендірумен және жобалар құрастырумен айналысамын.",
         sec_ach: "Жетістіктер мен тәжірибе",
         a1_t: "WorldSkills Kazakhstan (2-орын)",
