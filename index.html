@@ -1,729 +1,228 @@
 <!DOCTYPE html>
-<html lang="ru" data-mode="dark">
+<html lang="kk" data-mode="light" data-pixel="off">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Абусамат Абдулла — abusasa</title>
-  <meta name="description" content="Абусамат Абдулла (16 лет, г. Актау) — кибербезопасность (WorldSkills, 2 место), администрирование серверов и разработка.">
+  <meta name="description" content="Абусамат Абдулла (16 жас, Ақтау) — киберқауіпсіздік (WorldSkills, 2-орын), серверлерді әкімшілендіру және әзірлеу.">
   <style>
-    @font-face {
-      font-family: 'MinecraftFont';
-      src: url('./minecraft.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    :root[data-mode="dark"] {
-      --bg: #050505;
-      --bg-drawer: #0d0d0f;
-      --text-bright: #f4f4f6;
-      --text-mid: #a1a1aa;
-      --text-dim: #52525b;
-      --text-dim-hover: #8e8e99;
-      --border: #1f1f23;
-      --pill-bg: #121215;
-    }
-
-    :root[data-mode="light"] {
-      --bg: #fafafa;
-      --bg-drawer: #f2f2f0;
-      --text-bright: #111113;
-      --text-mid: #52525b;
-      --text-dim: #8e8e96;
-      --text-dim-hover: #3f3f46;
-      --border: #e4e4e7;
-      --pill-bg: #ededeb;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html[data-pixel="on"] * {
-      font-family: 'MinecraftFont', monospace;
-    }
-
-    html[data-pixel="off"] * {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text-bright);
-      font-size: 13px;
-      line-height: 1.75;
-      -webkit-font-smoothing: none;
-      font-smooth: never;
-      image-rendering: pixelated;
-      transition: background-color 0.15s ease, color 0.15s ease;
-      overflow-x: hidden;
-    }
-
-    /* Top-left Brian Lovin style '=' menu bar */
-    .top-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 54px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      z-index: 100;
-      background: linear-gradient(to bottom, var(--bg) 70%, transparent);
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .menu-btn {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      padding: 4px;
-    }
-
-    .menu-btn span {
-      display: block;
-      width: 18px;
-      height: 2px;
-      background-color: var(--text-mid);
-      transition: transform 0.2s ease, background-color 0.15s ease;
-    }
-
-    .menu-btn:hover span {
-      background-color: var(--text-bright);
-    }
-
-    .menu-btn.open span:nth-child(1) {
-      transform: translateY(3.5px) rotate(45deg);
-    }
-
-    .menu-btn.open span:nth-child(2) {
-      transform: translateY(-3.5px) rotate(-45deg);
-    }
-
-    .nav-brand {
-      font-size: 12px;
-      color: var(--text-mid);
-      text-decoration: none;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .mini-btn {
-      background: var(--pill-bg);
-      color: var(--text-mid);
-      border: 1px solid var(--border);
-      padding: 4px 9px;
-      border-radius: 4px;
-      font-size: 10.5px;
-      cursor: pointer;
-      transition: color 0.15s ease, border-color 0.15s ease;
-    }
-
-    .mini-btn:hover {
-      color: var(--text-bright);
-      border-color: var(--text-dim);
-    }
-
-    /* Slide-out Drawer Menu when '=' is clicked */
-    .drawer-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.55);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-      z-index: 90;
-    }
-
-    .drawer-backdrop.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .drawer {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 270px;
-      background: var(--bg-drawer);
-      border-right: 1px solid var(--border);
-      padding: 68px 22px 28px;
-      transform: translateX(-100%);
-      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 95;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .drawer.open {
-      transform: translateX(0);
-    }
-
-    .drawer-section {
-      margin-bottom: 22px;
-    }
-
-    .drawer-label {
-      font-size: 10px;
-      color: var(--text-dim);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-
-    .drawer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .drawer-links a, .drawer-links button {
-      color: var(--text-mid);
-      text-decoration: none;
-      font-size: 12px;
-      background: none;
-      border: none;
-      text-align: left;
-      cursor: pointer;
-      padding: 4px 0;
-      transition: color 0.15s ease;
-    }
-
-    .drawer-links a:hover, .drawer-links button:hover {
-      color: var(--text-bright);
-    }
-
-    /* Main Column (Brian Lovin proportion) */
-    .wrap {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 108px 24px 120px;
-    }
-
-    /* Avatar + Intro (Side-by-side header + full square-squeezed image) */
-    .profile-head {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 22px;
-    }
-
-    .avatar {
-      width: 68px;
-      height: 68px;
-      border-radius: 14px;
-      object-fit: fill;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      flex-shrink: 0;
-      display: block;
-    }
-
-    .profile-meta h1 {
-      font-size: 18px;
-      font-weight: normal;
-      color: var(--text-bright);
-      margin-bottom: 5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      line-height: 1.3;
-    }
-
-    .profile-subtitle {
-      font-size: 12px;
-      color: var(--text-dim);
-      line-height: 1.4;
-    }
-
-    .age-tag {
-      font-size: 11px;
-      color: var(--text-dim);
-      background: var(--pill-bg);
-      border: 1px solid var(--border);
-      padding: 1px 7px;
-      border-radius: 4px;
-    }
-
-    .lead {
-      font-size: 13.5px;
-      color: var(--text-mid);
-      line-height: 1.8;
-      margin-bottom: 24px;
-    }
-
-    .lead strong {
-      color: var(--text-bright);
-      font-weight: normal;
-    }
-
-    /* 3 Social Icons + Resume pills */
-    .social-bar {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 58px;
-      flex-wrap: wrap;
-    }
-
-    .social-icon {
-      color: var(--text-dim);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.15s ease, transform 0.15s ease, filter 0.15s ease;
-      text-decoration: none;
-    }
-
-    .social-icon svg {
-      width: 21px;
-      height: 21px;
-      fill: currentColor;
-    }
-
-    /* Bright brand colors on hover! */
-    .social-icon.github:hover {
-      color: #ffffff;
-      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
-      transform: translateY(-1px);
-    }
-    :root[data-mode="light"] .social-icon.github:hover {
-      color: #000000;
-    }
-
-    .social-icon.whatsapp:hover {
-      color: #25D366;
-      filter: drop-shadow(0 0 8px rgba(37, 211, 102, 0.55));
-      transform: translateY(-1px);
-    }
-
-    .social-icon.tiktok:hover {
-      color: #ff0050;
-      filter: drop-shadow(-2px -1px 0px #00f2fe) drop-shadow(0 0 8px rgba(255, 0, 80, 0.5));
-      transform: translateY(-1px);
-    }
-
-    .social-divider {
-      width: 1px;
-      height: 16px;
-      background: var(--border);
-    }
-
-    .resume-pill {
-      font-size: 11px;
-      color: var(--text-mid);
-      background: var(--pill-bg);
-      border: 1px solid var(--border);
-      padding: 4px 10px;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: color 0.15s ease, border-color 0.15s ease;
-    }
-
-    .resume-pill:hover {
-      color: var(--text-bright);
-      border-color: var(--text-mid);
-    }
-
-    /* Sections in Brian Lovin one-line style */
-    section {
-      margin-bottom: 52px;
-    }
-
-    .sec-head {
-      font-size: 11.5px;
-      color: var(--text-dim);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .one-line-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .row-item {
-      display: block;
-      text-decoration: none;
-      line-height: 1.65;
-      font-size: 13px;
-    }
-
-    .row-title {
-      color: var(--text-bright);
-      margin-right: 8px;
-      transition: color 0.15s ease;
-    }
-
-    a.row-item:hover .row-title {
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
-
-    .row-desc {
-      color: var(--text-dim);
-      transition: color 0.15s ease;
-    }
-
-    .row-item:hover .row-desc {
-      color: var(--text-dim-hover);
-    }
-
-    .upcoming-line {
-      margin-top: 16px;
-      font-size: 11.5px;
-      color: var(--text-dim);
-    }
-
-    /* Bottom Photo (no context, cleanly aligned) */
-    .bottom-photo-wrap {
-      margin-top: 56px;
-      margin-bottom: 32px;
-    }
-
-    .bottom-photo {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-
-    footer {
-      font-size: 11px;
-      color: var(--text-dim);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-    }
-
-    /* Interactive Draggable Minecraft Enderman & Creeper Overlay */
-    #mob-layer {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 999;
-      overflow: hidden;
-    }
-
-    .mob-entity {
-      position: absolute;
-      width: 64px;
-      height: 96px;
-      pointer-events: auto;
-      cursor: grab;
-      user-select: none;
-      touch-action: none;
-    }
-
-    .mob-entity:active {
-      cursor: grabbing;
-    }
-
-    /* Authentic Minecraft overhead nametag */
-    .mob-nametag {
-      position: absolute;
-      top: -18px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.55);
-      color: #ffffff;
-      padding: 1px 6px;
-      font-size: 10px;
-      white-space: nowrap;
-      border-radius: 2px;
-      pointer-events: none;
-      text-shadow: 1px 1px 0 #000;
-    }
-
-    .mob-speech {
-      position: absolute;
-      top: -38px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #18181b;
-      color: #e879f9;
-      border: 1px solid #a855f7;
-      padding: 2px 6px;
-      font-size: 10px;
-      white-space: nowrap;
-      border-radius: 3px;
-      opacity: 0;
-      transition: opacity 0.15s ease;
-      pointer-events: none;
-    }
+    @font-face { font-family: 'MinecraftFont'; src: url('./minecraft.ttf') format('truetype'); font-display: swap; }
+    :root[data-mode="light"] { --bg: #fafafa; --bg-drawer: #f3f3f1; --text-bright: #111113; --text-mid: #4b4b53; --text-dim: #82828c; --text-dim-hover: #27272a; --border: #e4e4e7; --pill-bg: #ededeb; }
+    :root[data-mode="dark"] { --bg: #070708; --bg-drawer: #101013; --text-bright: #f4f4f6; --text-mid: #a1a1aa; --text-dim: #63636e; --text-dim-hover: #a1a1aa; --border: #222227; --pill-bg: #141418; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html[data-pixel="on"] * { font-family: 'MinecraftFont', monospace; -webkit-font-smoothing: none; }
+    html[data-pixel="off"] * { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text-bright); font-size: 14px; line-height: 1.7; transition: background 0.15s, color 0.15s; overflow-x: hidden; }
+    .top-nav { position: fixed; top: 0; left: 0; right: 0; height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .nav-left, .nav-right { display: flex; align-items: center; gap: 8px; position: relative; }
+    .menu-btn { background: none; border: none; cursor: pointer; width: 28px; height: 28px; display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 4px; flex-shrink: 0; }
+    .menu-btn span { display: block; width: 18px; height: 2px; background: var(--text-mid); transition: transform 0.2s, background 0.15s; }
+    .menu-btn:hover span { background: var(--text-bright); }
+    .menu-btn.open span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+    .menu-btn.open span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); }
+    .nav-brand { font-size: 13px; font-weight: 500; color: var(--text-bright); text-decoration: none; white-space: nowrap; }
+    .mini-btn { background: var(--pill-bg); color: var(--text-bright); border: 1px solid var(--border); padding: 5px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; white-space: nowrap; transition: border-color 0.15s; }
+    .mini-btn:hover { border-color: var(--text-mid); }
+    .plus-menu { position: absolute; top: 40px; right: 0; background: var(--bg-drawer); border: 1px solid var(--border); border-radius: 8px; padding: 8px; display: none; flex-direction: column; gap: 6px; min-width: 155px; box-shadow: 0 8px 24px rgba(0,0,0,0.18); z-index: 120; }
+    .plus-menu.open { display: flex; }
+    .plus-menu button { width: 100%; text-align: left; background: var(--pill-bg); color: var(--text-bright); border: 1px solid var(--border); padding: 6px 10px; border-radius: 5px; font-size: 12px; cursor: pointer; }
+    .plus-menu button:hover { border-color: var(--text-mid); }
+    .drawer-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 90; }
+    .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+    .drawer { position: fixed; top: 0; left: 0; bottom: 0; width: 250px; background: var(--bg-drawer); border-right: 1px solid var(--border); padding: 68px 20px 24px; transform: translateX(-100%); transition: transform 0.2s ease; z-index: 95; display: flex; flex-direction: column; justify-content: space-between; }
+    .drawer.open { transform: translateX(0); }
+    .drawer-section { margin-bottom: 22px; }
+    .drawer-label { font-size: 10px; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .drawer-links { display: flex; flex-direction: column; gap: 8px; }
+    .drawer-links a, .drawer-links button { color: var(--text-mid); text-decoration: none; font-size: 13px; background: none; border: none; text-align: left; cursor: pointer; padding: 3px 0; }
+    .drawer-links a:hover, .drawer-links button:hover { color: var(--text-bright); }
+    .wrap { max-width: 600px; margin: 0 auto; padding: 88px 20px 120px; }
+    .profile-head { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .avatar { width: 68px; height: 68px; border-radius: 14px; object-fit: fill; border: 1px solid var(--border); background: #fff; flex-shrink: 0; display: block; }
+    .profile-meta h1 { font-size: 19px; font-weight: 600; color: var(--text-bright); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; line-height: 1.25; }
+    .age-tag { font-size: 11px; font-weight: 500; color: var(--text-mid); background: var(--pill-bg); border: 1px solid var(--border); padding: 1px 7px; border-radius: 5px; }
+    .profile-subtitle { font-size: 12.5px; color: var(--text-dim); line-height: 1.4; }
+    .lead { font-size: 14px; color: var(--text-mid); line-height: 1.75; margin-bottom: 22px; }
+    .lead strong { color: var(--text-bright); font-weight: 600; }
+    .social-bar { display: flex; align-items: center; gap: 16px; margin-bottom: 48px; flex-wrap: wrap; }
+    .social-icon { color: var(--text-dim); display: inline-flex; align-items: center; justify-content: center; transition: color 0.15s, transform 0.15s, filter 0.15s; text-decoration: none; }
+    .social-icon svg { width: 21px; height: 21px; fill: currentColor; }
+    .social-icon.github:hover { color: var(--text-bright); filter: drop-shadow(0 0 6px rgba(128,128,128,0.45)); transform: translateY(-1px); }
+    .social-icon.whatsapp:hover { color: #25D366; filter: drop-shadow(0 0 8px rgba(37,211,102,0.55)); transform: translateY(-1px); }
+    .social-icon.tiktok:hover { color: #ff0050; filter: drop-shadow(-2px -1px 0px #00f2fe) drop-shadow(0 0 8px rgba(255,0,80,0.45)); transform: translateY(-1px); }
+    .social-divider { width: 1px; height: 16px; background: var(--border); }
+    .resume-pill { font-size: 11.5px; color: var(--text-mid); background: var(--pill-bg); border: 1px solid var(--border); padding: 4px 10px; border-radius: 5px; text-decoration: none; transition: color 0.15s, border-color 0.15s; }
+    .resume-pill:hover { color: var(--text-bright); border-color: var(--text-mid); }
+    section { margin-bottom: 40px; }
+    .sec-head { font-size: 12px; font-weight: 500; color: var(--text-dim); margin-bottom: 14px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; transition: color 0.15s; }
+    .sec-head:hover { color: var(--text-bright); }
+    .sec-arrow { display: inline-block; transition: transform 0.2s ease; transform: rotate(90deg); }
+    section.collapsed .sec-arrow { transform: rotate(0deg); }
+    section.collapsed .sec-body { display: none; }
+    .one-line-list { display: flex; flex-direction: column; gap: 11px; }
+    .row-item { display: block; text-decoration: none; line-height: 1.65; font-size: 13.5px; }
+    .row-title { color: var(--text-bright); font-weight: 500; margin-right: 8px; }
+    a.row-item:hover .row-title { text-decoration: underline; text-underline-offset: 4px; }
+    .row-desc { color: var(--text-dim); transition: color 0.15s; }
+    .row-item:hover .row-desc { color: var(--text-dim-hover); }
+    .upcoming-line { margin-top: 14px; font-size: 12px; color: var(--text-dim); }
+    .bottom-photo-wrap { margin: 48px 0 28px; }
+    .bottom-photo { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--border); }
+    footer { font-size: 11.5px; color: var(--text-dim); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 16px; border-top: 1px solid var(--border); }
+    #mob-layer { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; }
+    .mob-entity { position: absolute; width: 72px; height: 108px; pointer-events: auto; cursor: grab; user-select: none; touch-action: none; }
+    .mob-entity:active { cursor: grabbing; }
+    .mob-nametag { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.65); color: #fff; padding: 1px 6px; font-size: 10px; white-space: nowrap; border-radius: 3px; pointer-events: none; font-family: 'MinecraftFont', monospace; }
+    .mob-speech { position: absolute; top: -38px; left: 50%; transform: translateX(-50%); background: #18181b; color: #f0abfc; border: 1px solid #a855f7; padding: 2px 6px; font-size: 10px; white-space: nowrap; border-radius: 3px; opacity: 0; transition: opacity 0.15s; pointer-events: none; font-family: 'MinecraftFont', monospace; }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation Bar with '=' Menu Button -->
   <div class="top-nav">
     <div class="nav-left">
-      <button class="menu-btn" id="menu-btn" onclick="toggleDrawer()" aria-label="Меню">
-        <span></span>
-        <span></span>
-      </button>
-      <a href="#" class="nav-brand" data-i18n="name_nav">Абусамат Абдулла</a>
+      <button class="menu-btn" id="menu-btn" onclick="toggleDrawer()" aria-label="Меню"><span></span><span></span></button>
+      <a href="#top" class="nav-brand" data-i18n="name">Абусамат Абдулла</a>
     </div>
     <div class="nav-right">
-      <button class="mini-btn" onclick="togglePixelFont()" id="pixel-btn">Font: Minecraft</button>
-      <button class="mini-btn" onclick="spawnOrToggleCreeper()" id="creeper-btn">+ Creeper</button>
-      <button class="mini-btn" onclick="toggleLang()" id="lang-btn">KZ</button>
-      <button class="mini-btn" onclick="toggleMode()" id="mode-btn">Светлая</button>
+      <button class="mini-btn" onclick="togglePixelFont()" id="pixel-btn">Font: Clean</button>
+      <button class="mini-btn" onclick="togglePlusMenu()" id="plus-btn" title="Настройки">+</button>
+      <div class="plus-menu" id="plus-menu">
+        <button onclick="toggleLang()" id="lang-btn">Тіл / Язык: KZ</button>
+        <button onclick="toggleMode()" id="mode-btn">Тема: Жарық</button>
+        <button onclick="spawnOrToggleCreeper()" id="creeper-btn">+ Creeper</button>
+      </div>
     </div>
   </div>
 
-  <!-- Slide-out Drawer Menu (Sorted Index) -->
   <div class="drawer-backdrop" id="drawer-backdrop" onclick="toggleDrawer()"></div>
   <aside class="drawer" id="drawer">
     <div>
       <div class="drawer-section">
-        <div class="drawer-label">Навигация</div>
+        <div class="drawer-label" data-i18n="nav_label">Навигация</div>
         <div class="drawer-links">
-          <a href="#top" onclick="toggleDrawer()">О себе</a>
+          <a href="#top" onclick="toggleDrawer()" data-i18n="nav_about">Өзім туралы</a>
         </div>
       </div>
-
       <div class="drawer-section">
-        <div class="drawer-label">Документы (PDF)</div>
+        <div class="drawer-label">PDF</div>
         <div class="drawer-links">
-          <a href="./Abusamat_Abdulla_Resume_RU.pdf" download>Резюме (RU.pdf) ↓</a>
           <a href="./Abusamat_Abdulla_Resume_KZ.pdf" download>Түйіндеме (KZ.pdf) ↓</a>
+          <a href="./Abusamat_Abdulla_Resume_RU.pdf" download>Резюме (RU.pdf) ↓</a>
         </div>
       </div>
-
       <div class="drawer-section">
-        <div class="drawer-label">Интерактив (Minecraft)</div>
+        <div class="drawer-label">Minecraft</div>
         <div class="drawer-links">
-          <button onclick="teleportEnderman(); toggleDrawer();">Телепортировать Эндермена</button>
-          <button onclick="spawnOrToggleCreeper(); toggleDrawer();">Позвать / убрать Крипера</button>
+          <button onclick="teleportEnderman(); toggleDrawer();">Enderman Teleport</button>
+          <button onclick="spawnOrToggleCreeper(); toggleDrawer();">Creeper ON / OFF</button>
         </div>
       </div>
     </div>
-
-    <div style="font-size: 10px; color: var(--text-dim);">
-      Мышкой можно хватать и перетаскивать Эндермена по экрану.
-    </div>
+    <div style="font-size: 11px; color: var(--text-dim);">abusasa.github.io</div>
   </aside>
 
   <main class="wrap" id="top">
-
-    <!-- Avatar + Name + 16 y.o. + Subtitle (Side-by-side) -->
     <div class="profile-head">
       <img src="./avatar.jpg" alt="Абусамат Абдулла" class="avatar">
       <div class="profile-meta">
-        <h1>
-          <span data-i18n="name">Абусамат Абдулла</span>
-          <span class="age-tag" data-i18n="age">16 лет</span>
-        </h1>
-        <div class="profile-subtitle" data-i18n="role">Кибербезопасность, администрирование серверов и разработка</div>
+        <h1><span data-i18n="name">Абусамат Абдулла</span> <span class="age-tag" data-i18n="age">16 жас</span></h1>
+        <div class="profile-subtitle" data-i18n="role">Киберқауіпсіздік, серверлерді әкімшілендіру және әзірлеу</div>
       </div>
     </div>
 
-    <p class="lead" data-i18n="bio">
-      Живу в Актау, учусь на 2 курсе колледжа <strong>Yessenov</strong> (грант, ИС). С 2022 года занимаюсь операционными системами (<strong>Arch Linux</strong>, Windows), кибербезопасностью, администрированием игровых серверов и сборкой прикладных проектов.
-    </p>
+    <p class="lead" data-i18n="bio">Ақтауда тұрамын, <strong>Yessenov</strong> колледжінің 2-курсында оқимын (грант, АЖ). 2022 жылдан бері операциялық жүйелермен (<strong>Arch Linux</strong>, Windows), киберқауіпсіздікпен, ойын серверлерін әкімшілендірумен және жобалар құрастырумен айналысамын.</p>
 
-    <!-- 3 Social Icons (GitHub, WhatsApp, TikTok) + PDF Resumes -->
     <div class="social-bar">
-      <!-- GitHub -->
-      <a href="https://github.com/abusasa" target="_blank" rel="noreferrer" class="social-icon github" title="GitHub (@abusasa)">
-        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      </a>
-
-      <!-- WhatsApp -->
-      <a href="https://wa.me/77788046920" target="_blank" rel="noreferrer" class="social-icon whatsapp" title="WhatsApp (+7 778 804 69 20)">
-        <svg viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.127.558 4.198 1.617 6.008l-1.617 5.992 6.135-1.594c1.766.969 3.766 1.594 5.865 1.594 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/></svg>
-      </a>
-
-      <!-- TikTok (@abuzxc67) -->
-      <a href="https://www.tiktok.com/@abuzxc67" target="_blank" rel="noreferrer" class="social-icon tiktok" title="TikTok (@abuzxc67)">
-        <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-      </a>
-
+      <a href="https://github.com/abusasa" target="_blank" rel="noreferrer" class="social-icon github" title="GitHub (@abusasa)"><svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+      <a href="https://wa.me/77788046920" target="_blank" rel="noreferrer" class="social-icon whatsapp" title="WhatsApp (+7 778 804 69 20)"><svg viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.127.558 4.198 1.617 6.008l-1.617 5.992 6.135-1.594c1.766.969 3.766 1.594 5.865 1.594 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/></svg></a>
+      <a href="https://www.tiktok.com/@abuzxc67" target="_blank" rel="noreferrer" class="social-icon tiktok" title="TikTok (@abuzxc67)"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
       <div class="social-divider"></div>
-
-      <a href="./Abusamat_Abdulla_Resume_RU.pdf" download class="resume-pill">Резюме RU.pdf</a>
       <a href="./Abusamat_Abdulla_Resume_KZ.pdf" download class="resume-pill">Түйіндеме KZ.pdf</a>
+      <a href="./Abusamat_Abdulla_Resume_RU.pdf" download class="resume-pill">Резюме RU.pdf</a>
     </div>
 
-    <!-- 1. Достижения (Brian Lovin one-line format) -->
     <section id="achievements">
-      <div class="sec-head"><span data-i18n="sec_ach">Достижения и опыт</span> <span>›</span></div>
-      <div class="one-line-list">
-        <div class="row-item">
-          <span class="row-title" data-i18n="a1_t">WorldSkills Kazakhstan (2 место)</span>
-          <span class="row-desc" data-i18n="a1_d">Кибербезопасность (Модули А и Б): проникновение в системы, RCE-эксплойты, подмена JWT, криптография и шифрование разделов</span>
-        </div>
-
-        <div class="row-item">
-          <span class="row-title" data-i18n="a2_t">Главный админ серверов CS2</span>
-          <span class="row-desc" data-i18n="a2_d">Управлял игровыми серверами на киберспортивных турнирах в технопарке (совместно с организатором Матвеем и преподавателем)</span>
-        </div>
-
-        <div class="row-item">
-          <span class="row-title" data-i18n="a3_t">Хакатон-состав Yessenov (2026)</span>
-          <span class="row-desc" data-i18n="a3_d">Выделен колледжем в команду разработчиков (бэкенд и логика) на предстоящие хакатоны</span>
-        </div>
-
-        <div class="row-item">
-          <span class="row-title" data-i18n="a4_t">Системы и железо (с 2022 г.)</span>
-          <span class="row-desc" data-i18n="a4_d">4+ года практики с Arch Linux (Hyprland), Windows 11, разделами дисков и локальными ИИ (Ollama, CUDA)</span>
-        </div>
+      <div class="sec-head" onclick="toggleSection(this)"><span data-i18n="sec_ach">Жетістіктер мен тәжірибе</span> <span class="sec-arrow">›</span></div>
+      <div class="sec-body one-line-list">
+        <div class="row-item"><span class="row-title" data-i18n="a1_t">WorldSkills Kazakhstan (2-орын)</span><span class="row-desc" data-i18n="a1_d">Киберқауіпсіздік (А және Б модульдері): жүйеге ену, RCE-эксплойттар, JWT түрлендіру, криптография және бөлімдерді шифрлау</span></div>
+        <div class="row-item"><span class="row-title" data-i18n="a2_t">CS2 серверлерінің бас әкімшісі</span><span class="row-desc" data-i18n="a2_d">Технопарктегі киберспорт турнирлерінде ойын серверлерін басқардым (ұйымдастырушы Матвей және оқытушымен бірге)</span></div>
+        <div class="row-item"><span class="row-title" data-i18n="a3_t">Yessenov хакатон құрамасы (2026)</span><span class="row-desc" data-i18n="a3_d">Алдағы хакатондарға қатысу үшін колледждің әзірлеушілер командасына таңдалдым</span></div>
+        <div class="row-item"><span class="row-title" data-i18n="a4_t">Жүйелер мен жабдықтар (2022 ж. бері)</span><span class="row-desc" data-i18n="a4_d">Arch Linux (Hyprland), Windows 11, диск бөлімдері және жергілікті ЖИ (Ollama, CUDA) бойынша 4+ жыл тәжірибе</span></div>
       </div>
     </section>
 
-    <!-- 2. Проекты (Brian Lovin one-line format: Bright Title + Muted Description) -->
     <section id="projects">
-      <div class="sec-head"><span data-i18n="sec_proj">Проекты</span> <span>›</span></div>
-      <div class="one-line-list">
-        <div class="row-item">
-          <span class="row-title">CollegeDu</span>
-          <span class="row-desc" data-i18n="p1_d">Приложение для экосистемы колледжа: расписание, табель, предзаказ в столовой и ИИ-помощник</span>
+      <div class="sec-head" onclick="toggleSection(this)"><span data-i18n="sec_proj">Жобалар</span> <span class="sec-arrow">›</span></div>
+      <div class="sec-body">
+        <div class="one-line-list">
+          <div class="row-item"><span class="row-title">CollegeDu</span><span class="row-desc" data-i18n="p1_d">Колледж экожүйесіне арналған қосымша: кесте, журнал, асханада алдын ала тапсырыс және ЖИ-көмекші</span></div>
+          <a href="https://origin-pwa.vercel.app" target="_blank" rel="noreferrer" class="row-item"><span class="row-title">Autostudio PWA ↗</span><span class="row-desc" data-i18n="p2_d">2ГИС-тегі Ақтаудың 25 автосервисіне арналған онлайн-жазылу платформасы мен CRM-панелі</span></a>
+          <a href="https://mangistau.vercel.app/" target="_blank" rel="noreferrer" class="row-item"><span class="row-title">Mangistau IT Service ↗</span><span class="row-desc" data-i18n="p3_d">Маңғыстаудағы компьютерлік шебер сайты (WhatsApp өтінімдерімен)</span></a>
+          <div class="row-item"><span class="row-title">Qazaqpedia</span><span class="row-desc" data-i18n="p4_d">Qazaq AI бөлімі бар қазақ тіліндегі білім беру энциклопедиясы</span></div>
+          <div class="row-item"><span class="row-title">JooTime &amp; Kezeksiz</span><span class="row-desc" data-i18n="p5_d">Жатақханада Kaspi арқылы кір жууды төлеу және электронды кезек прототиптері</span></div>
+          <a href="https://github.com/abusasa/2GIS-auto" target="_blank" rel="noreferrer" class="row-item"><span class="row-title">2GIS &amp; WhatsApp Bot ↗</span><span class="row-desc" data-i18n="p6_d">2ГИС-тен сайты жоқ компанияларды жинау және Selenium арқылы хабарлама жіберу скрипттері</span></a>
+          <a href="https://github.com/abusasa/ctf" target="_blank" rel="noreferrer" class="row-item"><span class="row-title">CTF Walkthroughs ↗</span><span class="row-desc" data-i18n="p7_d">CTF бөлмелерін өту базасы (TryHackMe: Billing — RCE &amp; Fail2Ban root). Толықтырылуда</span></a>
         </div>
-
-        <a href="https://origin-pwa.vercel.app" target="_blank" rel="noreferrer" class="row-item">
-          <span class="row-title">Autostudio PWA ↗</span>
-          <span class="row-desc" data-i18n="p2_d">Платформа онлайн-записи и CRM-панель для 25 автосервисов Актау из 2ГИС</span>
-        </a>
-
-        <a href="https://mangistau.vercel.app/" target="_blank" rel="noreferrer" class="row-item">
-          <span class="row-title">Mangistau IT Service ↗</span>
-          <span class="row-desc" data-i18n="p3_d">Сервисный сайт компьютерного мастера в Мангистау с заявками в WhatsApp</span>
-        </a>
-
-        <div class="row-item">
-          <span class="row-title">Qazaqpedia</span>
-          <span class="row-desc" data-i18n="p4_d">Образовательная энциклопедия на казахском языке с разделом Qazaq AI</span>
-        </div>
-
-        <div class="row-item">
-          <span class="row-title">JooTime &amp; Kezeksiz</span>
-          <span class="row-desc" data-i18n="p5_d">Мобильные прототипы оплаты стирки в общежитии через Kaspi и электронной очереди</span>
-        </div>
-
-        <a href="https://github.com/abusasa/2GIS-auto" target="_blank" rel="noreferrer" class="row-item">
-          <span class="row-title">2GIS &amp; WhatsApp Bot ↗</span>
-          <span class="row-desc" data-i18n="p6_d">Python-скрипты парсинга компаний без сайта и авторассылки через Selenium</span>
-        </a>
-
-        <a href="https://github.com/abusasa/ctf" target="_blank" rel="noreferrer" class="row-item">
-          <span class="row-title">CTF Walkthroughs ↗</span>
-          <span class="row-desc" data-i18n="p7_d">Личная база прохождений CTF-комнат (TryHackMe: Billing — RCE &amp; Fail2Ban root). Пополняется</span>
-        </a>
-      </div>
-
-      <div class="upcoming-line" data-i18n="upcoming">
-        * Развиваясь в IT-сфере, ожидаются новые пополнения по проектам и CTF-разборам.
+        <div class="upcoming-line" data-i18n="upcoming">* IT саласында даму барысында жаңа жобалармен және CTF талдауларымен толығады.</div>
       </div>
     </section>
 
-    <!-- 3. Моё железо и система (Setup) -->
     <section id="setup">
-      <div class="sec-head"><span data-i18n="sec_setup">Железо и система</span> <span>›</span></div>
-      <div class="one-line-list">
-        <div class="row-item">
-          <span class="row-title" data-i18n="s1_t">ОС и рабочее окружение</span>
-          <span class="row-desc" data-i18n="s1_d">Arch Linux (Hyprland) + Windows 11 (Dual-Boot)</span>
-        </div>
-
-        <div class="row-item">
-          <span class="row-title" data-i18n="s2_t">Конфигурация ПК</span>
-          <span class="row-desc" data-i18n="s2_d">Intel Core i3-9100 • GTX 1650 • 24 GB RAM • SSD Netac 512 GB + HDD 1 TB</span>
-        </div>
-
-        <div class="row-item">
-          <span class="row-title" data-i18n="s3_t">Монитор</span>
-          <span class="row-desc" data-i18n="s3_d">UltraWide 2560×1080 @ 75Hz</span>
-        </div>
+      <div class="sec-head" onclick="toggleSection(this)"><span data-i18n="sec_setup">Жабдықтар мен жүйе</span> <span class="sec-arrow">›</span></div>
+      <div class="sec-body one-line-list">
+        <div class="row-item"><span class="row-title" data-i18n="s1_t">ОЖ және жұмыс ортасы</span><span class="row-desc" data-i18n="s1_d">Arch Linux (Hyprland) + Windows 11 (Dual-Boot)</span></div>
+        <div class="row-item"><span class="row-title" data-i18n="s2_t">ДК конфигурациясы</span><span class="row-desc" data-i18n="s2_d">Intel Core i3-9100 • GTX 1650 • 24 GB RAM • SSD Netac 512 GB + HDD 1 TB</span></div>
+        <div class="row-item"><span class="row-title" data-i18n="s3_t">Монитор</span><span class="row-desc" data-i18n="s3_d">UltraWide 2560×1080 @ 75Hz</span></div>
       </div>
     </section>
 
-    <!-- 4. Образование и база -->
     <section id="skills">
-      <div class="sec-head"><span data-i18n="sec_edu">Образование и база</span> <span>›</span></div>
-      <div class="one-line-list">
-        <div class="row-item">
-          <span class="row-title" data-i18n="e1_t">Колледж Yessenov</span>
-          <span class="row-desc" data-i18n="e1_d">2 курс, государственный грант (ВТиПО / Информационные системы). Языки: казахский, русский</span>
-        </div>
-
-        <div class="row-item">
-          <span class="row-title" data-i18n="e2_t">Стек и инструменты</span>
-          <span class="row-desc" data-i18n="e2_d">Пентест (Nmap, Metasploit, CTF), Linux / Windows, БД Supabase, Git, Vercel и AI-сборка на Next.js, Flutter, Python</span>
-        </div>
+      <div class="sec-head" onclick="toggleSection(this)"><span data-i18n="sec_edu">Білімі және база</span> <span class="sec-arrow">›</span></div>
+      <div class="sec-body one-line-list">
+        <div class="row-item"><span class="row-title" data-i18n="e1_t">Yessenov College</span><span class="row-desc" data-i18n="e1_d">2-курс, мемлекеттік грант (Ақпараттық жүйелер). Тілдер: қазақ тілі, орыс тілі</span></div>
+        <div class="row-item"><span class="row-title" data-i18n="e2_t">Стек және құралдар</span><span class="row-desc" data-i18n="e2_d">Пентест (Nmap, Metasploit, CTF), Linux / Windows, Supabase ДҚ, Git, Vercel және Next.js, Flutter, Python</span></div>
       </div>
     </section>
 
-    <!-- Bottom Photo with friends (no context, cleanly aligned) -->
-    <div class="bottom-photo-wrap" id="photo">
-      <img src="./friends.jpg" alt="" class="bottom-photo" loading="lazy">
-    </div>
+    <div class="bottom-photo-wrap"><img src="./friends.jpg" alt="" class="bottom-photo" loading="lazy"></div>
 
     <footer>
-      <span>abusasa.github.io • Актау, 2026</span>
-      <span>Enderman пет внизу экрана (можно таскать мышкой)</span>
+      <span>abusasa.github.io • Ақтау, 2026</span>
+      <span>@abuzxc67</span>
     </footer>
-
   </main>
 
-  <!-- Interactive Draggable Minecraft Enderman & Creeper Layer -->
   <div id="mob-layer">
-    <!-- Enderman -->
-    <div id="enderman" class="mob-entity" style="left: 160px; bottom: 0px;">
+    <div id="enderman" class="mob-entity" style="left: 140px; bottom: 0px;">
       <div class="mob-nametag">Enderman</div>
       <div class="mob-speech" id="ender-speech">*vwoop*</div>
-      <canvas id="ender-canvas" width="32" height="48" style="width:64px;height:96px;image-rendering:pixelated;"></canvas>
+      <canvas id="ender-canvas" width="32" height="48" style="width:72px;height:108px;image-rendering:pixelated;"></canvas>
     </div>
-
-    <!-- Optional Creeper -->
-    <div id="creeper" class="mob-entity" style="left: 280px; bottom: 0px; display: none;">
+    <div id="creeper" class="mob-entity" style="left: 260px; bottom: 0px; display: none;">
       <div class="mob-nametag">Creeper</div>
       <div class="mob-speech" id="creeper-speech" style="color:#4ade80;border-color:#22c55e;">Tssss...</div>
-      <canvas id="creeper-canvas" width="32" height="48" style="width:64px;height:96px;image-rendering:pixelated;"></canvas>
+      <canvas id="creeper-canvas" width="32" height="48" style="width:72px;height:108px;image-rendering:pixelated;"></canvas>
     </div>
   </div>
 
   <script>
-    // --- UI & DRAWER ---
+    let currentLang = 'kz', currentMode = 'light', pixelFontOn = false;
+
     function toggleDrawer() {
       document.getElementById('drawer').classList.toggle('open');
       document.getElementById('drawer-backdrop').classList.toggle('open');
       document.getElementById('menu-btn').classList.toggle('open');
     }
 
-    let currentMode = 'dark';
-    let pixelFontOn = true;
-    document.documentElement.setAttribute('data-pixel', 'on');
+    function togglePlusMenu() {
+      document.getElementById('plus-menu').classList.toggle('open');
+      // As requested: clicking '+' opens the menu and sets font to Clean automatically
+      if (document.getElementById('plus-menu').classList.contains('open')) {
+        pixelFontOn = false;
+        document.documentElement.setAttribute('data-pixel', 'off');
+        document.getElementById('pixel-btn').textContent = 'Font: Clean';
+      }
+    }
 
     function togglePixelFont() {
       pixelFontOn = !pixelFontOn;
@@ -734,63 +233,23 @@
     function toggleMode() {
       currentMode = currentMode === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-mode', currentMode);
-      document.getElementById('mode-btn').textContent = currentMode === 'dark' ? 'Светлая' : 'Тёмная';
+      document.getElementById('mode-btn').textContent = currentMode === 'light' ? 'Тема: Жарық' : 'Тема: Қараңғы';
     }
 
-    let currentLang = 'ru';
+    function toggleSection(headEl) {
+      headEl.parentElement.classList.toggle('collapsed');
+    }
+
     const dict = {
-      ru: {
-        name_nav: "Абусамат Абдулла",
-        name: "Абусамат Абдулла",
-        age: "16 лет",
-        role: "Кибербезопасность, администрирование серверов и разработка",
-        bio: "Живу в Актау, учусь на 2 курсе колледжа <strong>Yessenov</strong> (грант, ИС). С 2022 года занимаюсь операционными системами (<strong>Arch Linux</strong>, Windows), кибербезопасностью, администрированием игровых серверов и сборкой прикладных проектов.",
-        sec_ach: "Достижения и опыт",
-        a1_t: "WorldSkills Kazakhstan (2 место)",
-        a1_d: "Кибербезопасность (Модули А и Б): проникновение в системы, RCE-эксплойты, подмена JWT, криптография и шифрование разделов",
-        a2_t: "Главный админ серверов CS2",
-        a2_d: "Управлял игровыми серверами на киберспортивных турнирах в технопарке (совместно с организатором Матвеем и преподавателем)",
-        a3_t: "Хакатон-состав Yessenov (2026)",
-        a3_d: "Выделен колледжем в команду разработчиков (бэкенд и логика) на предстоящие хакатоны",
-        a4_t: "Системы и железо (с 2022 г.)",
-        a4_d: "4+ года практики с Arch Linux (Hyprland), Windows 11, разделами дисков и локальными ИИ (Ollama, CUDA)",
-        sec_proj: "Проекты",
-        p1_d: "Приложение для экосистемы колледжа: расписание, табель, предзаказ в столовой и ИИ-помощник",
-        p2_d: "Платформа онлайн-записи и CRM-панель для 25 автосервисов Актау из 2ГИС",
-        p3_d: "Сервисный сайт компьютерного мастера в Мангистау с заявками в WhatsApp",
-        p4_d: "Образовательная энциклопедия на казахском языке с разделом Qazaq AI",
-        p5_d: "Мобильные прототипы оплаты стирки в общежитии через Kaspi и электронной очереди",
-        p6_d: "Python-скрипты парсинга компаний без сайта и авторассылки через Selenium",
-        p7_d: "Личная база прохождений CTF-комнат (TryHackMe: Billing — RCE & Fail2Ban root). Пополняется",
-        upcoming: "* Развиваясь в IT-сфере, ожидаются новые пополнения по проектам и CTF-разборам.",
-        sec_setup: "Железо и система",
-        s1_t: "ОС и рабочее окружение",
-        s1_d: "Arch Linux (Hyprland) + Windows 11 (Dual-Boot)",
-        s2_t: "Конфигурация ПК",
-        s2_d: "Intel Core i3-9100 • GTX 1650 • 24 GB RAM • SSD Netac 512 GB + HDD 1 TB",
-        s3_t: "Монитор",
-        s3_d: "UltraWide 2560×1080 @ 75Hz",
-        sec_edu: "Образование и база",
-        e1_t: "Колледж Yessenov",
-        e1_d: "2 курс, государственный грант (ВТиПО / Информационные системы). Языки: казахский, русский",
-        e2_t: "Стек и инструменты",
-        e2_d: "Пентест (Nmap, Metasploit, CTF), Linux / Windows, БД Supabase, Git, Vercel и AI-сборка на Next.js, Flutter, Python"
-      },
       kz: {
-        name_nav: "Абусамат Абдулла",
-        name: "Абусамат Абдулла",
-        age: "16 жас",
+        nav_label: "Навигация", nav_about: "Өзім туралы", name: "Абусамат Абдулла", age: "16 жас",
         role: "Киберқауіпсіздік, серверлерді әкімшілендіру және әзірлеу",
         bio: "Ақтауда тұрамын, <strong>Yessenov</strong> колледжінің 2-курсында оқимын (грант, АЖ). 2022 жылдан бері операциялық жүйелермен (<strong>Arch Linux</strong>, Windows), киберқауіпсіздікпен, ойын серверлерін әкімшілендірумен және жобалар құрастырумен айналысамын.",
         sec_ach: "Жетістіктер мен тәжірибе",
-        a1_t: "WorldSkills Kazakhstan (2-орын)",
-        a1_d: "Киберқауіпсіздік (А және Б модульдері): жүйеге ену, RCE-эксплойттар, JWT түрлендіру, криптография және бөлімдерді шифрлау",
-        a2_t: "CS2 серверлерінің бас әкімшісі",
-        a2_d: "Технопарктегі киберспорт турнирлерінде ойын серверлерін басқардым (ұйымдастырушы Матвей және оқытушымен бірге)",
-        a3_t: "Yessenov хакатон құрамасы (2026)",
-        a3_d: "Алдағы хакатондарға қатысу үшін колледждің әзірлеушілер командасына таңдалдым",
-        a4_t: "Жүйелер мен жабдықтар (2022 ж. бері)",
-        a4_d: "Arch Linux (Hyprland), Windows 11, диск бөлімдері және жергілікті ЖИ (Ollama, CUDA) бойынша 4+ жыл тәжірибе",
+        a1_t: "WorldSkills Kazakhstan (2-орын)", a1_d: "Киберқауіпсіздік (А және Б модульдері): жүйеге ену, RCE-эксплойттар, JWT түрлендіру, криптография және бөлімдерді шифрлау",
+        a2_t: "CS2 серверлерінің бас әкімшісі", a2_d: "Технопарктегі киберспорт турнирлерінде ойын серверлерін басқардым (ұйымдастырушы Матвей және оқытушымен бірге)",
+        a3_t: "Yessenov хакатон құрамасы (2026)", a3_d: "Алдағы хакатондарға қатысу үшін колледждің әзірлеушілер командасына таңдалдым",
+        a4_t: "Жүйелер мен жабдықтар (2022 ж. бері)", a4_d: "Arch Linux (Hyprland), Windows 11, диск бөлімдері және жергілікті ЖИ (Ollama, CUDA) бойынша 4+ жыл тәжірибе",
         sec_proj: "Жобалар",
         p1_d: "Колледж экожүйесіне арналған қосымша: кесте, журнал, асханада алдын ала тапсырыс және ЖИ-көмекші",
         p2_d: "2ГИС-тегі Ақтаудың 25 автосервисіне арналған онлайн-жазылу платформасы мен CRM-панелі",
@@ -801,398 +260,215 @@
         p7_d: "CTF бөлмелерін өту базасы (TryHackMe: Billing — RCE & Fail2Ban root). Толықтырылуда",
         upcoming: "* IT саласында даму барысында жаңа жобалармен және CTF талдауларымен толығады.",
         sec_setup: "Жабдықтар мен жүйе",
-        s1_t: "ОЖ және жұмыс ортасы",
-        s1_d: "Arch Linux (Hyprland) + Windows 11 (Dual-Boot)",
-        s2_t: "ДК конфигурациясы",
-        s2_d: "Intel Core i3-9100 • GTX 1650 • 24 GB RAM • SSD Netac 512 GB + HDD 1 TB",
-        s3_t: "Монитор",
-        s3_d: "UltraWide 2560×1080 @ 75Hz",
+        s1_t: "ОЖ және жұмыс ортасы", s1_d: "Arch Linux (Hyprland) + Windows 11 (Dual-Boot)",
+        s2_t: "ДК конфигурациясы", s2_d: "Intel Core i3-9100 • GTX 1650 • 24 GB RAM • SSD Netac 512 GB + HDD 1 TB",
+        s3_t: "Монитор", s3_d: "UltraWide 2560×1080 @ 75Hz",
         sec_edu: "Білімі және база",
-        e1_t: "Yessenov College",
-        e1_d: "2-курс, мемлекеттік грант (Ақпараттық жүйелер). Тілдер: қазақ тілі, орыс тілі",
-        e2_t: "Стек және құралдар",
-        e2_d: "Пентест (Nmap, Metasploit, CTF), Linux / Windows, Supabase ДҚ, Git, Vercel және Next.js, Flutter, Python"
+        e1_t: "Yessenov College", e1_d: "2-курс, мемлекеттік грант (Ақпараттық жүйелер). Тілдер: қазақ тілі, орыс тілі",
+        e2_t: "Стек және құралдар", e2_d: "Пентест (Nmap, Metasploit, CTF), Linux / Windows, Supabase ДҚ, Git, Vercel және Next.js, Flutter, Python"
+      },
+      ru: {
+        nav_label: "Навигация", nav_about: "О себе", name: "Абусамат Абдулла", age: "16 лет",
+        role: "Кибербезопасность, администрирование серверов и разработка",
+        bio: "Живу в Актау, учусь на 2 курсе колледжа <strong>Yessenov</strong> (грант, ИС). С 2022 года занимаюсь операционными системами (<strong>Arch Linux</strong>, Windows), кибербезопасностью, администрированием игровых серверов и сборкой прикладных проектов.",
+        sec_ach: "Достижения и опыт",
+        a1_t: "WorldSkills Kazakhstan (2 место)", a1_d: "Кибербезопасность (Модули А и Б): проникновение в системы, RCE-эксплойты, подмена JWT, криптография и шифрование разделов",
+        a2_t: "Главный админ серверов CS2", a2_d: "Управлял игровыми серверами на киберспортивных турнирах в технопарке (совместно с организатором Матвеем и преподавателем)",
+        a3_t: "Хакатон-состав Yessenov (2026)", a3_d: "Выделен колледжем в команду разработчиков (бэкенд и логика) на предстоящие хакатоны",
+        a4_t: "Системы и железо (с 2022 г.)", a4_d: "4+ года практики с Arch Linux (Hyprland), Windows 11, разделами дисков и локальными ИИ (Ollama, CUDA)",
+        sec_proj: "Проекты",
+        p1_d: "Приложение для экосистемы колледжа: расписание, табель, предзаказ в столовой и ИИ-помощник",
+        p2_d: "Платформа онлайн-записи и CRM-панель для 25 автосервисов Актау из 2ГИС",
+        p3_d: "Сервисный сайт компьютерного мастера в Мангистау с заявками в WhatsApp",
+        p4_d: "Образовательная энциклопедия на казахском языке с разделом Qazaq AI",
+        p5_d: "Мобильные прототипы оплаты стирки в общежитии через Kaspi и электронной очереди",
+        p6_d: "Python-скрипты парсинга компаний без сайта и авторассылки через Selenium",
+        p7_d: "Личная база прохождений CTF-комнат (TryHackMe: Billing — RCE & Fail2Ban root). Пополняется",
+        upcoming: "* Развиваясь в IT-сфере, ожидаются новые пополнения по проектам и CTF-разборам.",
+        sec_setup: "Железо и система",
+        s1_t: "ОС и рабочее окружение", s1_d: "Arch Linux (Hyprland) + Windows 11 (Dual-Boot)",
+        s2_t: "Конфигурация ПК", s2_d: "Intel Core i3-9100 • GTX 1650 • 24 GB RAM • SSD Netac 512 GB + HDD 1 TB",
+        s3_t: "Монитор", s3_d: "UltraWide 2560×1080 @ 75Hz",
+        sec_edu: "Образование и база",
+        e1_t: "Колледж Yessenov", e1_d: "2 курс, государственный грант (ВТиПО / Информационные системы). Языки: казахский, русский",
+        e2_t: "Стек и инструменты", e2_d: "Пентест (Nmap, Metasploit, CTF), Linux / Windows, БД Supabase, Git, Vercel и AI-сборка на Next.js, Flutter, Python"
       }
     };
 
     function toggleLang() {
-      currentLang = currentLang === 'ru' ? 'kz' : 'ru';
-      document.getElementById('lang-btn').textContent = currentLang === 'ru' ? 'KZ' : 'RU';
+      currentLang = currentLang === 'kz' ? 'ru' : 'kz';
+      document.documentElement.lang = currentLang === 'kz' ? 'kk' : 'ru';
+      document.getElementById('lang-btn').textContent = 'Тіл / Язык: ' + currentLang.toUpperCase();
       const d = dict[currentLang];
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const k = el.getAttribute('data-i18n');
-        if (d[k]) {
-          if (k === 'bio') el.innerHTML = d[k];
-          else el.textContent = d[k];
-        }
+        if (d[k]) { if (k === 'bio') el.innerHTML = d[k]; else el.textContent = d[k]; }
       });
     }
 
-    // --- MINECRAFT ENDERMAN & CREEPER ENGINE ---
-    const enderEl = document.getElementById('enderman');
-    const enderCanvas = document.getElementById('ender-canvas');
-    const eCtx = enderCanvas.getContext('2d');
-    const enderSpeech = document.getElementById('ender-speech');
-
-    const creeperEl = document.getElementById('creeper');
-    const creeperCanvas = document.getElementById('creeper-canvas');
-    const cCtx = creeperCanvas.getContext('2d');
-    const creeperSpeech = document.getElementById('creeper-speech');
-
-    // Enderman state
-    const ender = {
-      x: 180,
-      y: 0,
-      vx: 1.1,
-      dir: 1,
-      dragging: false,
-      dragOffsetX: 0,
-      dragOffsetY: 0,
-      state: 'walk', // 'walk' | 'idle' | 'sleep'
-      timer: 0,
-      particles: []
-    };
-
-    // Creeper state
-    const creeper = {
-      active: false,
-      x: 340,
-      y: 0,
-      dir: -1,
-      dragging: false,
-      dragOffsetX: 0,
-      dragOffsetY: 0,
-      state: 'walk',
-      timer: 0
-    };
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight - 40;
-    let chaseCursor = false;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (ender.dragging) {
-        ender.x = Math.max(0, Math.min(window.innerWidth - 64, e.clientX - ender.dragOffsetX));
-        ender.y = Math.max(0, Math.min(window.innerHeight - 96, window.innerHeight - e.clientY - ender.dragOffsetY));
-      }
-      if (creeper.dragging) {
-        creeper.x = Math.max(0, Math.min(window.innerWidth - 64, e.clientX - creeper.dragOffsetX));
-        creeper.y = Math.max(0, Math.min(window.innerHeight - 96, window.innerHeight - e.clientY - creeper.dragOffsetY));
-      }
-    });
-
-    // --- WEB AUDIO API MINECRAFT SOUNDS (Enderman vwoop & Creeper hiss) ---
+    // --- WEB AUDIO SOUNDS & FIXED ENDERMAN / CREEPER ---
     let audioCtx = null;
-    function getAudioCtx() {
-      if (!audioCtx) {
-        const AC = window.AudioContext || window.webkitAudioContext;
-        if (AC) audioCtx = new AC();
-      }
+    function getAudio() {
+      if (!audioCtx) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) audioCtx = new AC(); }
       if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
       return audioCtx;
     }
 
-    function playEndermanSound(isTeleport) {
-      const ctx = getAudioCtx();
-      if (!ctx) return;
+    function playSound(type) {
+      const ctx = getAudio(); if (!ctx) return;
       const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = isTeleport ? 'sawtooth' : 'sine';
-      if (isTeleport) {
-        osc.frequency.setValueAtTime(140, now);
-        osc.frequency.exponentialRampToValueAtTime(520, now + 0.14);
-        osc.frequency.exponentialRampToValueAtTime(95, now + 0.28);
-        gain.gain.setValueAtTime(0.08, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.3);
+      if (type === 'creeper') {
+        const buf = ctx.createBuffer(1, ctx.sampleRate * 0.4, ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+        const src = ctx.createBufferSource(); src.buffer = buf;
+        const g = ctx.createGain(); g.gain.setValueAtTime(0.06, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        src.connect(g); g.connect(ctx.destination); src.start(now); src.stop(now + 0.4);
       } else {
-        osc.frequency.setValueAtTime(210, now);
-        osc.frequency.exponentialRampToValueAtTime(340, now + 0.12);
-        osc.frequency.exponentialRampToValueAtTime(180, now + 0.22);
-        gain.gain.setValueAtTime(0.06, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.23);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.23);
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = type === 'tp' ? 'sawtooth' : 'sine';
+        osc.frequency.setValueAtTime(160, now);
+        osc.frequency.exponentialRampToValueAtTime(type === 'tp' ? 500 : 320, now + 0.12);
+        osc.frequency.exponentialRampToValueAtTime(110, now + 0.25);
+        g.gain.setValueAtTime(0.07, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
+        osc.connect(g); g.connect(ctx.destination); osc.start(now); osc.stop(now + 0.26);
       }
     }
 
-    function playCreeperHiss() {
-      const ctx = getAudioCtx();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      const bufferSize = ctx.sampleRate * 0.45;
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
-      }
-      const noise = ctx.createBufferSource();
-      noise.buffer = buffer;
-      const filter = ctx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(2800, now);
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0.08, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-      noise.connect(filter);
-      filter.connect(gain);
-      gain.connect(ctx.destination);
-      noise.start(now);
-      noise.stop(now + 0.45);
+    const enderEl = document.getElementById('enderman'), eCtx = document.getElementById('ender-canvas').getContext('2d'), enderSpeech = document.getElementById('ender-speech');
+    const creeperEl = document.getElementById('creeper'), cCtx = document.getElementById('creeper-canvas').getContext('2d'), creeperSpeech = document.getElementById('creeper-speech');
+    const ender = { x: 140, y: 0, dir: 1, dragging: false, ox: 0, oy: 0, state: 'walk', timer: 0, particles: [] };
+    const creeper = { active: false, x: 260, y: 0, dir: -1, dragging: false, ox: 0, oy: 0 };
+    let mouseX = 300, mouseY = 500;
+
+    window.addEventListener('mousemove', e => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      if (ender.dragging) { ender.x = Math.max(0, Math.min(window.innerWidth - 72, e.clientX - ender.ox)); ender.y = Math.max(0, Math.min(window.innerHeight - 108, window.innerHeight - e.clientY - ender.oy)); }
+      if (creeper.dragging) { creeper.x = Math.max(0, Math.min(window.innerWidth - 72, e.clientX - creeper.ox)); creeper.y = Math.max(0, Math.min(window.innerHeight - 108, window.innerHeight - e.clientY - creeper.oy)); }
+    });
+
+    function say(el, txt) { el.textContent = txt; el.style.opacity = '1'; clearTimeout(el._t); el._t = setTimeout(() => el.style.opacity = '0', 1600); }
+
+    function bindMob(el, mob, speechEl, lines, sfx) {
+      el.addEventListener('pointerdown', e => {
+        mob.dragging = true; el.setPointerCapture(e.pointerId);
+        const r = el.getBoundingClientRect(); mob.ox = e.clientX - r.left; mob.oy = r.bottom - e.clientY;
+        say(speechEl, lines[Math.floor(Math.random() * lines.length)]); playSound(sfx);
+      });
+      el.addEventListener('pointerup', e => { if (mob.dragging) { mob.dragging = false; el.releasePointerCapture(e.pointerId); } });
+      el.addEventListener('dblclick', () => { if (mob === ender) teleportEnderman(); });
     }
 
-    function setupDrag(el, mob, speechEl, lines) {
-      el.addEventListener('pointerdown', (e) => {
-        mob.dragging = true;
-        el.setPointerCapture(e.pointerId);
-        const rect = el.getBoundingClientRect();
-        mob.dragOffsetX = e.clientX - rect.left;
-        mob.dragOffsetY = rect.bottom - e.clientY;
-        say(speechEl, lines[Math.floor(Math.random() * lines.length)]);
-        if (mob === ender) playEndermanSound(false);
-        else playCreeperHiss();
-      });
-
-      el.addEventListener('pointerup', (e) => {
-        if (!mob.dragging) return;
-        mob.dragging = false;
-        el.releasePointerCapture(e.pointerId);
-      });
-
-      el.addEventListener('dblclick', () => {
-        if (mob === ender) teleportEnderman();
-      });
-    }
-
-    function say(speechEl, text) {
-      speechEl.textContent = text;
-      speechEl.style.opacity = '1';
-      clearTimeout(speechEl._t);
-      speechEl._t = setTimeout(() => { speechEl.style.opacity = '0'; }, 1800);
-    }
-
-    setupDrag(enderEl, ender, enderSpeech, ["*vwoop*", "root@arch:~#", "Grass Block!", "WorldSkills #2", "Don't look at my eyes!", "Zzz..."]);
-    setupDrag(creeperEl, creeper, creeperSpeech, ["Tssss...", "CS2 Server OK!", "Boom?", "Aw man!"]);
+    bindMob(enderEl, ender, enderSpeech, ["*vwoop*", "root@arch:~#", "WorldSkills #2", "Grass Block!"], 'ender');
+    bindMob(creeperEl, creeper, creeperSpeech, ["Tssss...", "CS2 Server OK!", "Boom?"], 'creeper');
 
     function teleportEnderman() {
-      playEndermanSound(true);
-      // Spawn burst of purple portal particles at old spot
-      for (let i = 0; i < 14; i++) {
-        ender.particles.push({
-          x: 16 + (Math.random() - 0.5) * 16,
-          y: 24 + (Math.random() - 0.5) * 24,
-          life: 20 + Math.random() * 15
-        });
-      }
-      ender.x = 40 + Math.random() * (window.innerWidth - 120);
-      ender.y = 0;
-      say(enderSpeech, "*VWOOP!*");
+      playSound('tp');
+      for (let i = 0; i < 12; i++) ender.particles.push({ x: 8 + Math.random() * 16, y: 12 + Math.random() * 28, life: 22 });
+      ender.x = 30 + Math.random() * (window.innerWidth - 100); ender.y = 0; say(enderSpeech, "*VWOOP!*");
     }
 
     function spawnOrToggleCreeper() {
       creeper.active = !creeper.active;
       creeperEl.style.display = creeper.active ? 'block' : 'none';
       document.getElementById('creeper-btn').textContent = creeper.active ? '- Creeper' : '+ Creeper';
-      if (creeper.active) {
-        playCreeperHiss();
-        say(creeperSpeech, "Tssss...");
-      }
+      if (creeper.active) { playSound('creeper'); say(creeperSpeech, "Tssss..."); }
     }
 
-    // Draw Mini Enderman on 32x48 canvas
-    function drawEnderman(tick) {
+    function drawEnderman(t) {
       eCtx.clearRect(0, 0, 32, 48);
-
-      // Ambient purple Ender particles
-      if (Math.random() < 0.25) {
-        ender.particles.push({
-          x: 6 + Math.random() * 20,
-          y: 10 + Math.random() * 32,
-          life: 24
-        });
-      }
+      if (Math.random() < 0.2) ender.particles.push({ x: 6 + Math.random() * 20, y: 8 + Math.random() * 34, life: 22 });
       for (let i = ender.particles.length - 1; i >= 0; i--) {
-        const p = ender.particles[i];
-        p.y -= 0.25;
-        p.life--;
-        eCtx.fillStyle = p.life % 2 === 0 ? '#d946ef' : '#a855f7';
+        const p = ender.particles[i]; p.y -= 0.25; p.life--;
+        eCtx.fillStyle = p.life % 2 === 0 ? '#d946ef' : '#9333ea';
         eCtx.fillRect(Math.round(p.x), Math.round(p.y), 2, 2);
         if (p.life <= 0) ender.particles.splice(i, 1);
       }
-
       eCtx.save();
-      if (ender.dir < 0) {
-        eCtx.translate(32, 0);
-        eCtx.scale(-1, 1);
-      }
+      if (ender.dir < 0) { eCtx.translate(32, 0); eCtx.scale(-1, 1); }
 
-      const swing = (ender.state === 'walk' || ender.dragging) ? Math.round(Math.sin(tick * 0.22) * 3) : 0;
+      // Step animation: vertical alternating leg lift so legs NEVER detach from body!
+      const walking = ender.state === 'walk' || ender.dragging;
+      const stepA = walking ? (Math.sin(t * 0.22) > 0 ? 2 : 0) : 0;
+      const stepB = walking ? (Math.sin(t * 0.22) < 0 ? 2 : 0) : 0;
 
-      // Head (8x8 at top)
-      const headY = ender.dragging ? 8 : 10;
-      eCtx.fillStyle = '#111115';
-      eCtx.fillRect(12, headY, 8, 8);
-      eCtx.fillStyle = '#1c1c22';
-      eCtx.fillRect(12, headY, 8, 2);
+      // Head (10x9 with dark outline so visible on both light & dark themes)
+      eCtx.fillStyle = '#27272a'; eCtx.fillRect(10, 7, 10, 10);
+      eCtx.fillStyle = '#09090b'; eCtx.fillRect(11, 8, 8, 8);
+      // Bright Magenta Eyes
+      eCtx.fillStyle = '#f5d0fe'; eCtx.fillRect(12, 12, 3, 2); eCtx.fillRect(16, 12, 3, 2);
+      eCtx.fillStyle = '#c026d3'; eCtx.fillRect(13, 12, 1, 2); eCtx.fillRect(17, 12, 1, 2);
 
-      // Glowing Purple Enderman Eyes
-      if (ender.state === 'sleep') {
-        eCtx.fillStyle = '#701a75';
-        eCtx.fillRect(13, headY + 4, 2, 1);
-        eCtx.fillRect(17, headY + 4, 2, 1);
-      } else {
-        eCtx.fillStyle = '#f5d0fe';
-        eCtx.fillRect(13, headY + 4, 3, 1);
-        eCtx.fillRect(17, headY + 4, 3, 1);
-        eCtx.fillStyle = '#d946ef';
-        eCtx.fillRect(14, headY + 4, 1, 1);
-        eCtx.fillRect(18, headY + 4, 1, 1);
-      }
+      // Torso (8x12)
+      eCtx.fillStyle = '#18181b'; eCtx.fillRect(11, 17, 8, 12);
+      eCtx.fillStyle = '#27272a'; eCtx.fillRect(12, 18, 6, 4);
 
-      // Open jaw when dragged
-      if (ender.dragging) {
-        eCtx.fillStyle = '#09090b';
-        eCtx.fillRect(13, headY + 7, 6, 3);
-      }
+      // Straight Attached Long Legs (Left & Right)
+      eCtx.fillStyle = '#09090b';
+      eCtx.fillRect(12, 29, 2, 17 - stepA);
+      eCtx.fillStyle = '#18181b';
+      eCtx.fillRect(16, 29, 2, 17 - stepB);
 
-      // Torso (slim black body)
-      const bodyY = headY + (ender.dragging ? 10 : 8);
-      eCtx.fillStyle = '#141419';
-      eCtx.fillRect(13, bodyY, 6, 11);
+      // Arms holding Grass Block
+      eCtx.fillStyle = '#27272a';
+      eCtx.fillRect(15, 18, 2, 11);
+      eCtx.fillRect(17, 27, 4, 2);
 
-      // Long thin legs (animated walking)
-      eCtx.fillStyle = '#0e0e12';
-      eCtx.fillRect(13 + swing, bodyY + 11, 2, 16);
-      eCtx.fillStyle = '#18181f';
-      eCtx.fillRect(17 - swing, bodyY + 11, 2, 16);
-
-      // Long thin arms holding a Minecraft Grass Block in front!
-      eCtx.fillStyle = '#18181f';
-      eCtx.fillRect(16, bodyY + 1, 2, 12);
-      eCtx.fillRect(18, bodyY + 10, 4, 2);
-
-      // Grass Block held in hands (6x6)
-      const bx = 20;
-      const by = bodyY + 8 + Math.round(swing * 0.3);
-      // Dirt base
-      eCtx.fillStyle = '#78350f';
-      eCtx.fillRect(bx, by + 2, 6, 4);
-      eCtx.fillStyle = '#92400e';
-      eCtx.fillRect(bx + 1, by + 3, 2, 2);
-      // Green grass top
-      eCtx.fillStyle = '#22c55e';
-      eCtx.fillRect(bx, by, 6, 2);
-      eCtx.fillStyle = '#16a34a';
-      eCtx.fillRect(bx + 1, by + 2, 1, 1);
-      eCtx.fillRect(bx + 4, by + 2, 1, 1);
-
+      // Grass Block (7x7)
+      const by = 24 - (stepA ? 1 : 0);
+      eCtx.fillStyle = '#78350f'; eCtx.fillRect(19, by + 2, 7, 5);
+      eCtx.fillStyle = '#22c55e'; eCtx.fillRect(19, by, 7, 2);
+      eCtx.fillStyle = '#16a34a'; eCtx.fillRect(20, by + 2, 2, 1); eCtx.fillRect(24, by + 2, 1, 1);
       eCtx.restore();
     }
 
-    // Draw Mini Creeper on 32x48 canvas
-    function drawCreeper(tick) {
+    function drawCreeper(t) {
       cCtx.clearRect(0, 0, 32, 48);
       cCtx.save();
-      if (creeper.dir < 0) {
-        cCtx.translate(32, 0);
-        cCtx.scale(-1, 1);
-      }
-      const swing = (creeper.state === 'walk' || creeper.dragging) ? Math.round(Math.sin(tick * 0.25) * 2) : 0;
-
-      // Head (8x8)
-      const hy = 18;
-      cCtx.fillStyle = '#22c55e';
-      cCtx.fillRect(12, hy, 8, 8);
-      cCtx.fillStyle = '#4ade80';
-      cCtx.fillRect(12, hy, 3, 2);
-      cCtx.fillRect(17, hy + 5, 2, 2);
-      // Iconic Creeper Face
+      if (creeper.dir < 0) { cCtx.translate(32, 0); cCtx.scale(-1, 1); }
+      const step = Math.sin(t * 0.25) > 0 ? 1 : 0;
+      cCtx.fillStyle = '#15803d'; cCtx.fillRect(10, 15, 10, 10);
+      cCtx.fillStyle = '#22c55e'; cCtx.fillRect(11, 16, 8, 8);
       cCtx.fillStyle = '#09090b';
-      cCtx.fillRect(13, hy + 2, 2, 2);
-      cCtx.fillRect(17, hy + 2, 2, 2);
-      cCtx.fillRect(15, hy + 4, 2, 3);
-      cCtx.fillRect(14, hy + 5, 1, 2);
-      cCtx.fillRect(17, hy + 5, 1, 2);
-
-      // Body
-      cCtx.fillStyle = '#16a34a';
-      cCtx.fillRect(13, hy + 8, 6, 12);
-      cCtx.fillStyle = '#22c55e';
-      cCtx.fillRect(14, hy + 10, 3, 4);
-
-      // Stubby 4 legs
+      cCtx.fillRect(12, 18, 2, 2); cCtx.fillRect(16, 18, 2, 2);
+      cCtx.fillRect(14, 20, 2, 3); cCtx.fillRect(13, 21, 1, 2); cCtx.fillRect(16, 21, 1, 2);
+      cCtx.fillStyle = '#16a34a'; cCtx.fillRect(12, 25, 6, 12);
       cCtx.fillStyle = '#15803d';
-      cCtx.fillRect(11 + swing, hy + 20, 4, 6);
-      cCtx.fillRect(17 - swing, hy + 20, 4, 6);
-
+      cCtx.fillRect(10, 37, 4, 8 - step); cCtx.fillRect(16, 37, 4, 8 - (1 - step));
       cCtx.restore();
     }
 
     let tick = 0;
     function loop() {
       tick++;
-      const maxW = window.innerWidth - 64;
-
-      // Update Enderman physics & AI
+      const maxW = window.innerWidth - 72;
       if (!ender.dragging) {
-        if (ender.y > 0) {
-          ender.y = Math.max(0, ender.y - 6); // Gravity fall after drag
-        } else {
-          // If cursor is near bottom 140px of screen, gently walk towards cursor!
-          if (window.innerHeight - mouseY < 140 && Math.abs(mouseX - 32 - ender.x) > 28) {
-            ender.state = 'walk';
-            ender.dir = (mouseX - 32) > ender.x ? 1 : -1;
-            ender.x += ender.dir * 1.45;
-          } else if (ender.state === 'walk') {
-            ender.x += ender.dir * 0.95;
-            if (ender.x >= maxW) { ender.x = maxW; ender.dir = -1; }
-            if (ender.x <= 12) { ender.x = 12; ender.dir = 1; }
-            if (Math.random() < 0.004) {
-              ender.state = Math.random() < 0.35 ? 'sleep' : 'idle';
-              ender.timer = 110 + Math.random() * 90;
-              if (ender.state === 'sleep') say(enderSpeech, "Zzz...");
-            }
-          } else {
-            ender.timer--;
-            if (ender.timer <= 0) {
-              ender.state = 'walk';
-              if (Math.random() < 0.5) ender.dir *= -1;
-            }
-          }
+        if (ender.y > 0) ender.y = Math.max(0, ender.y - 6);
+        else {
+          ender.x += ender.dir * 0.9;
+          if (ender.x >= maxW) { ender.x = maxW; ender.dir = -1; }
+          if (ender.x <= 10) { ender.x = 10; ender.dir = 1; }
         }
       }
-
       enderEl.style.left = Math.round(ender.x) + 'px';
       enderEl.style.bottom = Math.round(ender.y) + 'px';
       drawEnderman(tick);
 
-      // Update Creeper if active
       if (creeper.active) {
         if (!creeper.dragging) {
-          if (creeper.y > 0) {
-            creeper.y = Math.max(0, creeper.y - 6);
-          } else {
-            creeper.x += creeper.dir * 0.75;
+          if (creeper.y > 0) creeper.y = Math.max(0, creeper.y - 6);
+          else {
+            creeper.x += creeper.dir * 0.7;
             if (creeper.x >= maxW) { creeper.x = maxW; creeper.dir = -1; }
-            if (creeper.x <= 12) { creeper.x = 12; creeper.dir = 1; }
+            if (creeper.x <= 10) { creeper.x = 10; creeper.dir = 1; }
           }
         }
         creeperEl.style.left = Math.round(creeper.x) + 'px';
         creeperEl.style.bottom = Math.round(creeper.y) + 'px';
         drawCreeper(tick);
       }
-
       requestAnimationFrame(loop);
     }
-
     requestAnimationFrame(loop);
   </script>
 </body>
