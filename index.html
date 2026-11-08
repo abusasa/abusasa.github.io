@@ -1,108 +1,785 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-mode="dark" data-pixel="on">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="yandex-verification" content="761647023c139ac9" />
-    <title>Список Абусамата</title>
-    <link href="https://fonts.googleapis.com/css2?family=Prosto+One&display=swap" rel="stylesheet">
-    <link rel="icon" href="vsdw.ico" type="image/x-icon">
-    <style>
-        body { 
-            font-family: 'Prosto One', sans-serif; 
-            background: #000; 
-            color: #0f0; 
-            text-align: left; 
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            cursor: none;
-        /* Эффект для мышки */
-        }
-        .cursor {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: rgba(0, 255, 0, 0.5); /* Зеленый цвет */
-            border-radius: 50%; /* Вернул скругленность курсора */
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: transform 0.3s ease, background 0.3s ease; /* Добавлена задержка */
-        }
-        .typing-demo {
-            width: 29ch;
-            animation: typing 2s steps(22), blink .5s step-end infinite alternate;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 3px solid;
-            font-family: monospace;
-            font-size: 1.8em;
-            color: #0f0;
-        }
-        @keyframes typing {
-            from { width: 0 }
-        }
-        @keyframes blink {
-            50% { border-color: transparent }
-        }
-        #anime-list {
-            max-width: 2000px; 
-            padding: 20px; 
-        }
-        .anime-item { 
-            padding: 5px; 
-            border-bottom: 1px solid #0f0; 
-            background: #000; 
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Абусамат Абдулла — abusasa</title>
+  <meta name="description" content="Абусамат Абдулла (16 лет, г. Актау) — кибербезопасность (WorldSkills, 2 место), администрирование серверов и разработка.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'MinecraftiaCustom';
+      src: url('./minecraft.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root[data-mode="dark"] {
+      --bg: #0a0a0a;
+      --text-primary: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --border: #222225;
+      --pill-bg: #141417;
+      --pill-hover: #1f1f24;
+      --link-underline: #3f3f46;
+      --link-hover: #ffffff;
+      --card-subtle: #111113;
+    }
+
+    :root[data-mode="light"] {
+      --bg: #fbfbfa;
+      --text-primary: #18181b;
+      --text-secondary: #52525b;
+      --text-muted: #71717a;
+      --border: #e4e4e7;
+      --pill-bg: #f1f1ef;
+      --pill-hover: #e4e4e2;
+      --link-underline: #d4d4d8;
+      --link-hover: #09090b;
+      --card-subtle: #f4f4f2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      transition: background-color 0.15s ease, color 0.15s ease;
+      overflow-x: hidden;
+    }
+
+    /* Pixel font accents when data-pixel="on" */
+    html[data-pixel="on"] .pixel-heading {
+      font-family: 'MinecraftiaCustom', 'JetBrains Mono', monospace;
+      letter-spacing: 0.02em;
+    }
+
+    html[data-pixel="on"] .pixel-tag {
+      font-family: 'MinecraftiaCustom', 'JetBrains Mono', monospace;
+    }
+
+    .wrap {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 52px 24px 110px;
+    }
+
+    /* Top utility bar */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 48px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .btn-toggle {
+      background: var(--pill-bg);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-toggle:hover {
+      background: var(--pill-hover);
+      color: var(--text-primary);
+    }
+
+    /* Profile Header with Avatar */
+    .profile-head {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .avatar {
+      width: 68px;
+      height: 68px;
+      border-radius: 14px;
+      object-fit: cover;
+      object-position: center 20%;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .profile-meta h1 {
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .age-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      background: var(--pill-bg);
+      border: 1px solid var(--border);
+      padding: 1px 8px;
+      border-radius: 5px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .subtitle {
+      font-size: 13.5px;
+      color: var(--text-muted);
+    }
+
+    .bio {
+      color: var(--text-secondary);
+      margin-bottom: 22px;
+      font-size: 14.8px;
+    }
+
+    .bio strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Inline links row */
+    .links-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 52px;
+    }
+
+    .pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: var(--pill-bg);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .pill-link:hover {
+      background: var(--pill-hover);
+    }
+
+    .pill-link span.muted {
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .entry {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .entry-title {
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 15px;
+    }
+
+    .entry-title a {
+      color: var(--text-primary);
+      text-decoration: underline;
+      text-decoration-color: var(--link-underline);
+      text-underline-offset: 4px;
+      transition: text-decoration-color 0.15s ease;
+    }
+
+    .entry-title a:hover {
+      text-decoration-color: var(--link-hover);
+    }
+
+    .entry-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .entry-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.62;
+    }
+
+    .upcoming-box {
+      margin-top: 20px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      background: var(--card-subtle);
+      border: 1px dashed var(--border);
+      color: var(--text-secondary);
+      font-size: 13.5px;
+    }
+
+    /* Bottom Photo (No context, cleanly aligned) */
+    .bottom-photo-wrap {
+      margin-top: 56px;
+      margin-bottom: 36px;
+    }
+
+    .bottom-photo {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    footer {
+      font-size: 12.5px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text-primary);
+    }
+
+    /* Interactive Pixel Pet Bar at bottom of viewport */
+    #pet-stage {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 54px;
+      pointer-events: none;
+      z-index: 999;
+      overflow: hidden;
+    }
+
+    #pet-actor {
+      position: absolute;
+      bottom: 0;
+      left: 120px;
+      width: 48px;
+      height: 48px;
+      pointer-events: auto;
+      cursor: pointer;
+      user-select: none;
+      image-rendering: pixelated;
+    }
+
+    #pet-bubble {
+      position: absolute;
+      bottom: 46px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--pill-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'MinecraftiaCustom', 'JetBrains Mono', monospace;
+      font-size: 10px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
-    <!-- Эффект для мышки -->
-    <div class="cursor"></div>
-    <div class="typing-demo">Мой список посмотренных anime</div>
-    <br>
-    <div id="anime-list">Загрузка...</div>
-    
-    <script>
-        // Эффект для мышки с задержкой
-        const cursor = document.querySelector('.cursor');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
+  <div class="wrap">
 
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.pageX;
-            mouseY = e.pageY;
-        });
+    <div class="topbar">
+      <span class="pixel-tag">abusasa.github.io // aktau</span>
+      <div class="controls">
+        <button class="btn-toggle" onclick="togglePixelFont()" id="pixel-btn">Font: Minecraft</button>
+        <button class="btn-toggle" onclick="toggleLang()" id="lang-btn">KZ</button>
+        <button class="btn-toggle" onclick="toggleMode()" id="mode-btn">Светлая</button>
+      </div>
+    </div>
 
-        function updateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1; // Добавлена плавная задержка
-            cursorY += (mouseY - cursorY) * 0.1;
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            requestAnimationFrame(updateCursor);
+    <header>
+      <div class="profile-head">
+        <img src="./avatar.jpg" alt="Абусамат Абдулла" class="avatar">
+        <div class="profile-meta">
+          <h1>
+            <span class="pixel-heading" data-i18n="name">Абусамат Абдулла</span>
+            <span class="age-badge" data-i18n="age">16 лет</span>
+          </h1>
+          <div class="subtitle" data-i18n="role">Кибербезопасность, администрирование серверов и разработка</div>
+        </div>
+      </div>
+
+      <p class="bio" data-i18n="bio">
+        Учусь на 2 курсе колледжа <strong>Yessenov</strong> в Актау (грант, информационные системы). С 2022 года занимаюсь операционными системами, сетями и компьютерами: от низкоуровневой настройки <strong>Arch Linux</strong> и восстановления систем до пентеста, администрирования игровых серверов и сборки прикладных веб- и мобильных проектов.
+      </p>
+
+      <div class="links-row">
+        <a href="./Abusamat_Abdulla_Resume_RU.pdf" download class="pill-link">
+          <span data-i18n="btn_ru">Резюме</span> <span class="muted">RU.pdf</span>
+        </a>
+        <a href="./Abusamat_Abdulla_Resume_KZ.pdf" download class="pill-link">
+          <span data-i18n="btn_kz">Түйіндеме</span> <span class="muted">KZ.pdf</span>
+        </a>
+        <a href="https://wa.me/77788046920" target="_blank" rel="noreferrer" class="pill-link">
+          <span>WhatsApp</span> <span class="muted">+7 778 804 69 20</span>
+        </a>
+        <a href="https://github.com/abusasa" target="_blank" rel="noreferrer" class="pill-link">
+          <span>GitHub</span> <span class="muted">@abusasa</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- 1. Достижения и опыт -->
+    <section>
+      <h2 class="pixel-heading" data-i18n="sec_ach">Достижения и опыт</h2>
+      <div class="list">
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title" data-i18n="a1_title">2-е место — WorldSkills Kazakhstan (Кибербезопасность)</span>
+            <span class="entry-year" data-i18n="a1_meta">Модули А и Б</span>
+          </div>
+          <p class="entry-desc" data-i18n="a1_desc">
+            Проникновение в целевые системы (Nmap, эксплуатация уязвимостей и RCE-эксплойты через Metasploit/Meterpreter), декодирование и подмена JWT-токенов, повышение привилегий до root, криптография (XOR-дешифрование на Python), восстановление повреждённых заголовков файлов (magic bytes), стеганография и шифрование разделов.
+          </p>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title" data-i18n="a2_title">Главный администратор серверов CS2 &amp; Хакатон-состав колледжа</span>
+            <span class="entry-year">2026</span>
+          </div>
+          <p class="entry-desc" data-i18n="a2_desc">
+            Администрировал игровые серверы на киберспортивных турнирах по CS2 в технопарке (назначен главным по серверной части организатором Матвеем при участии профильного преподавателя). Также выделен колледжем Yessenov в основной состав команды на предстоящие хакатоны.
+          </p>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title" data-i18n="a3_title">Администрирование ОС, аппаратная диагностика и локальные ИИ</span>
+            <span class="entry-year">2022 — 2026</span>
+          </div>
+          <p class="entry-desc" data-i18n="a3_desc">
+            Более 4 лет плотной технической практики: настройка Arch Linux (Hyprland) и Windows 11 в dual-boot, восстановление загрузчиков и файловых систем, развёртывание локальных языковых моделей (Ollama, LM Studio, CUDA) и выполнение коммерческих заказов.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Образование и навыки -->
+    <section>
+      <h2 class="pixel-heading" data-i18n="sec_edu">Образование и навыки</h2>
+      <div class="list">
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title" data-i18n="edu_title">Колледж Yessenov, г. Актау</span>
+            <span class="entry-year" data-i18n="edu_year">2 курс, грант</span>
+          </div>
+          <p class="entry-desc" data-i18n="edu_desc">
+            Специальность «Вычислительная техника и информационные системы». Языки: казахский (родной), русский (свободно).
+          </p>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title" data-i18n="sk_title">Техническая база</span>
+          </div>
+          <p class="entry-desc" data-i18n="sk_desc">
+            Пентест и CTF (TryHackMe, Nmap, Metasploit, binwalk, криптография), администрирование Linux / Windows и игровых серверов, понимание клиент-серверной логики, работа с БД (Supabase), Git, деплой на Vercel и быстрая сборка проектов на Next.js, Flutter и Python с помощью AI-инструментов.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Проекты -->
+    <section>
+      <h2 class="pixel-heading" data-i18n="sec_proj">Проекты</h2>
+      <div class="list">
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title" data-i18n="p1_title">CollegeDu &amp; JooTime</span>
+            <span class="entry-year">Flutter</span>
+          </div>
+          <p class="entry-desc" data-i18n="p1_desc">
+            Приложение для улучшения цифровой экосистемы колледжа: расписание пар, журнал успеваемости, предзаказ в столовой без очередей, объявления куратора и ИИ-помощник студента (RU / KZ), а также концепт оплаты стиральных машин в общежитии через Kaspi.
+          </p>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title"><a href="https://origin-pwa.vercel.app" target="_blank" rel="noreferrer">Autostudio PWA &amp; CRM ↗</a></span>
+            <span class="entry-year">origin-pwa.vercel.app</span>
+          </div>
+          <p class="entry-desc" data-i18n="p2_desc">
+            Каталог и PWA-сайты онлайн-записи с панелью управления заявками для 25 автосервисов Актау на базе реальных данных из 2ГИС и интеграцией с WhatsApp.
+          </p>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title"><a href="https://mangistau.vercel.app/" target="_blank" rel="noreferrer" data-i18n="p3_title">Компьютерный сервис в Мангистау ↗</a></span>
+            <span class="entry-year">mangistau.vercel.app</span>
+          </div>
+          <p class="entry-desc" data-i18n="p3_desc">
+            Сайт для приёма заявок на переустановку Windows, настройку программ и обслуживание ПК с быстрым переходом в WhatsApp.
+          </p>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title">Qazaqpedia</span>
+            <span class="entry-year">Next.js</span>
+          </div>
+          <p class="entry-desc" data-i18n="p4_desc">
+            Прототип образовательной платформы-энциклопедии на казахском языке с поиском по статьям и разделом Qazaq AI.
+          </p>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title"><a href="https://github.com/abusasa/2GIS-auto" target="_blank" rel="noreferrer" data-i18n="p5_title">Парсер 2ГИС и автоматизация WhatsApp ↗</a></span>
+            <span class="entry-year">Python / Selenium</span>
+          </div>
+          <p class="entry-desc" data-i18n="p5_desc">
+            Скрипты для сбора местных компаний без сайта из 2ГИС и автоматической отправки предложений через WhatsApp Web.
+          </p>
+        </div>
+      </div>
+
+      <div class="upcoming-box" data-i18n="upcoming_note">
+        Постоянно развиваюсь в сфере IT и кибербезопасности — в ближайшее время здесь появятся новые самостоятельные проекты и инструменты.
+      </div>
+    </section>
+
+    <!-- Bottom Photo with friends (no caption/context, cleanly aligned) -->
+    <div class="bottom-photo-wrap">
+      <img src="./friends.jpg" alt="" class="bottom-photo" loading="lazy">
+    </div>
+
+    <footer>
+      <span>Абусамат Абдулла • Актау, 2026</span>
+      <div>
+        <a href="mailto:abdullaabusamat2@gmail.com">abdullaabusamat2@gmail.com</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Interactive Pixel Pet wandering across the bottom -->
+  <div id="pet-stage">
+    <div id="pet-actor" onclick="petInteract()" title="Нажми на питомца">
+      <div id="pet-bubble">GG WP!</div>
+      <canvas id="pet-canvas" width="16" height="16" style="width:48px;height:48px;image-rendering:pixelated;"></canvas>
+    </div>
+  </div>
+
+  <script>
+    let currentLang = 'ru';
+    let currentMode = 'dark';
+    let pixelFontOn = true;
+
+    const dict = {
+      ru: {
+        name: "Абусамат Абдулла",
+        age: "16 лет",
+        role: "Кибербезопасность, администрирование серверов и разработка",
+        bio: "Учусь на 2 курсе колледжа <strong>Yessenov</strong> в Актау (грант, информационные системы). С 2022 года занимаюсь операционными системами, сетями и компьютерами: от низкоуровневой настройки <strong>Arch Linux</strong> и восстановления систем до пентеста, администрирования игровых серверов и сборки прикладных веб- и мобильных проектов.",
+        btn_ru: "Резюме",
+        btn_kz: "Түйіндеме",
+        sec_ach: "Достижения и опыт",
+        a1_title: "2-е место — WorldSkills Kazakhstan (Кибербезопасность)",
+        a1_meta: "Модули А и Б",
+        a1_desc: "Проникновение в целевые системы (Nmap, эксплуатация уязвимостей и RCE-эксплойты через Metasploit/Meterpreter), декодирование и подмена JWT-токенов, повышение привилегий до root, криптография (XOR-дешифрование на Python), восстановление повреждённых заголовков файлов (magic bytes), стеганография и шифрование разделов.",
+        a2_title: "Главный администратор серверов CS2 & Хакатон-состав колледжа",
+        a2_desc: "Администрировал игровые серверы на киберспортивных турнирах по CS2 в технопарке (назначен главным по серверной части организатором Матвеем при участии профильного преподавателя). Также выделен колледжем Yessenov в основной состав команды на предстоящие хакатоны.",
+        a3_title: "Администрирование ОС, аппаратная диагностика и локальные ИИ",
+        a3_desc: "Более 4 лет плотной технической практики: настройка Arch Linux (Hyprland) и Windows 11 в dual-boot, восстановление загрузчиков и файловых систем, развёртывание локальных языковых моделей (Ollama, LM Studio, CUDA) и выполнение коммерческих заказов.",
+        sec_edu: "Образование и навыки",
+        edu_title: "Колледж Yessenov, г. Актау",
+        edu_year: "2 курс, грант",
+        edu_desc: "Специальность «Вычислительная техника и информационные системы». Языки: казахский (родной), русский (свободно).",
+        sk_title: "Техническая база",
+        sk_desc: "Пентест и CTF (TryHackMe, Nmap, Metasploit, binwalk, криптография), администрирование Linux / Windows и игровых серверов, понимание клиент-серверной логики, работа с БД (Supabase), Git, деплой на Vercel и быстрая сборка проектов на Next.js, Flutter и Python с помощью AI-инструментов.",
+        sec_proj: "Проекты",
+        p1_title: "CollegeDu & JooTime",
+        p1_desc: "Приложение для улучшения цифровой экосистемы колледжа: расписание пар, журнал успеваемости, предзаказ в столовой без очередей, объявления куратора и ИИ-помощник студента (RU / KZ), а также концепт оплаты стиральных машин в общежитии через Kaspi.",
+        p2_desc: "Каталог и PWA-сайты онлайн-записи с панелью управления заявками для 25 автосервисов Актау на базе реальных данных из 2ГИС и интеграцией с WhatsApp.",
+        p3_title: "Компьютерный сервис в Мангистау ↗",
+        p3_desc: "Сайт для приёма заявок на переустановку Windows, настройку программ и обслуживание ПК с быстрым переходом в WhatsApp.",
+        p4_desc: "Прототип образовательной платформы-энциклопедии на казахском языке с поиском по статьям и разделом Qazaq AI.",
+        p5_title: "Парсер 2ГИС и автоматизация WhatsApp ↗",
+        p5_desc: "Скрипты для сбора местных компаний без сайта из 2ГИС и автоматической отправки предложений через WhatsApp Web.",
+        upcoming_note: "Постоянно развиваюсь в сфере IT и кибербезопасности — в ближайшее время здесь появятся новые самостоятельные проекты и инструменты."
+      },
+      kz: {
+        name: "Абусамат Абдулла",
+        age: "16 жас",
+        role: "Киберқауіпсіздік, серверлерді әкімшілендіру және әзірлеу",
+        bio: "Ақтаудағы <strong>Yessenov</strong> колледжінің 2-курс студентімін (грант, ақпараттық жүйелер). 2022 жылдан бері операциялық жүйелермен, желілермен және компьютермен айналысамын: <strong>Arch Linux</strong> баптау мен жүйені қалпына келтіруден бастап, пентест, ойын серверлерін басқару және веб пен мобильді жобаларды құрастыруға дейін.",
+        btn_ru: "Резюме",
+        btn_kz: "Түйіндеме",
+        sec_ach: "Жетістіктер мен тәжірибе",
+        a1_title: "2-орын — WorldSkills Kazakhstan (Киберқауіпсіздік)",
+        a1_meta: "А және Б модульдері",
+        a1_desc: "Нысаналы жүйелерге ену (Nmap, Metasploit/Meterpreter арқылы RCE-эксплойттар), JWT-токендерді декодтау, артықшылықтарды root деңгейіне көтеру, криптография (Python XOR), зақымдалған файл сигнатураларын қалпына келтіру (magic bytes), стеганография және диск бөлімдерін шифрлау.",
+        a2_title: "CS2 серверлерінің бас әкімшісі & Колледж хакатон командасы",
+        a2_desc: "Технопарктегі CS2 киберспорт турнирлерінде ойын серверлерінің бас әкімшісі болдым (турнир ұйымдастырушысы Матвей және пән оқытушысы растайды). Сондай-ақ Yessenov колледжі тарапынан алдағы хакатондарға негізгі команда құрамына таңдалдым.",
+        a3_title: "ОЖ әкімшілендіру, аппараттық диагностика және жергілікті ЖИ",
+        a3_desc: "4 жылдан астам практикалық тәжірибе: Arch Linux (Hyprland) және Windows 11 жүйелерін dual-boot режимінде баптау, жүктегіштер мен файлдық жүйелерді қалпына келтіру, жергілікті тілдік модельдерді (Ollama, LM Studio, CUDA) іске қосу.",
+        sec_edu: "Білімі және дағдылар",
+        edu_title: "Yessenov College, Ақтау қ.",
+        edu_year: "2-курс, грант",
+        edu_desc: "«Есептеу техникасы және ақпараттық жүйелер» мамандығы. Тілдер: қазақ тілі (ана тілі), орыс тілі (еркін).",
+        sk_title: "Техникалық база",
+        sk_desc: "Пентест және CTF (TryHackMe, Nmap, Metasploit, binwalk, криптография), Linux / Windows және ойын серверлерін әкімшілендіру, клиент-серверлік логика, дерекқорлар (Supabase), Git, Vercel деплой және ЖИ көмегімен Next.js, Flutter, Python жобаларын жинау.",
+        sec_proj: "Жобалар",
+        p1_title: "CollegeDu & JooTime",
+        p1_desc: "Колледждің цифрлық экожүйесін жақсартуға арналған қосымша: сабақ кестесі, үлгерім журналы, асханада кезексіз алдын ала тапсырыс беру, куратор хабарландырулары және студенттің ЖИ-көмекшісі (RU / KZ), сондай-ақ Kaspi арқылы кір жуғыш машиналарды төлеу концепті.",
+        p2_desc: "2ГИС нақты деректері негізінде Ақтаудағы 25 автосервис үшін онлайн-жазылу PWA-сайттары және WhatsApp-пен интеграцияланған тапсырыстар панелі.",
+        p3_title: "Маңғыстаудағы компьютерлік сервис ↗",
+        p3_desc: "Windows орнату, бағдарламаларды баптау және ДК қызмет көрсетуге өтінімдерді тікелей WhatsApp арқылы қабылдайтын сайт.",
+        p4_desc: "Мақалалар бойынша іздеуі және Qazaq AI бөлімі бар қазақ тіліндегі білім беру энциклопедиясының прототипі.",
+        p5_title: "2ГИС парсері және WhatsApp автоматтандыру ↗",
+        p5_desc: "2ГИС-тен сайты жоқ жергілікті компанияларды жинауға және WhatsApp Web арқылы ұсыныстарды автоматты түрде жіберуге арналған скрипттер.",
+        upcoming_note: "IT және киберқауіпсіздік саласында үздіксіз дамып келемін — жақын арада мұнда жаңа дербес жобалар мен құралдар қосылады."
+      }
+    };
+
+    function togglePixelFont() {
+      pixelFontOn = !pixelFontOn;
+      document.documentElement.setAttribute('data-pixel', pixelFontOn ? 'on' : 'off');
+      document.getElementById('pixel-btn').textContent = pixelFontOn ? 'Font: Minecraft' : 'Font: Clean';
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'ru' ? 'kz' : 'ru';
+      document.getElementById('lang-btn').textContent = currentLang === 'ru' ? 'KZ' : 'RU';
+      const d = dict[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (d[k]) {
+          if (k === 'bio') el.innerHTML = d[k];
+          else el.textContent = d[k];
         }
+      });
+    }
 
-        updateCursor();
+    function toggleMode() {
+      currentMode = currentMode === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-mode', currentMode);
+      document.getElementById('mode-btn').textContent = currentMode === 'dark' ? 'Светлая' : 'Тёмная';
+    }
 
-        async function fetchAnimeList() {
-            const repo = "abusasa/animelist";
-            const filePath = "myanimelist.txt";
-            const url = `https://raw.githubusercontent.com/${repo}/main/${filePath}`;
-            
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error("Ошибка загрузки списка");
-                const text = await response.text();
-                
-                const animeArray = text.split("\n").filter(line => line.trim() !== "");
-                document.getElementById("anime-list").innerHTML = animeArray.map((a, index) => `<div class='anime-name'>${index + 1}. ${a}<br></div>`).join("");
-            } catch (error) {
-                document.getElementById("anime-list").innerHTML = "Не удалось загрузить список.";
-                console.error(error);
-            }
+    // --- PIXEL PET ENGINE (16x16 Pixel Cat/Wolf Sprite) ---
+    const canvas = document.getElementById('pet-canvas');
+    const ctx = canvas.getContext('2d');
+    const actor = document.getElementById('pet-actor');
+    const bubble = document.getElementById('pet-bubble');
+
+    // 16x16 pixel art frames (W = white/light gray, G = mid gray, D = dark outline, E = eyes)
+    const frameRun1 = [
+      "................",
+      "................",
+      "..DD......DD....",
+      ".DWWDDDDDDWWD...",
+      ".DWWWWWWWWWWWD..",
+      ".DWWEDWWWWEDWD..",
+      ".DWWWWWWWWWWWD..",
+      "..DDDDWWWWDDDD..",
+      "..DWWWWWWWWWD..D",
+      ".DWWWWWWWWWWWD.D",
+      ".DWWWWWWWWWWWWDD",
+      ".DWWWWWWWWWWWWD.",
+      "..DWWDDDDDDWWD..",
+      "..DWD......DWD..",
+      "..DD........DD..",
+      "................"
+    ];
+
+    const frameRun2 = [
+      "................",
+      "................",
+      "..DD......DD....",
+      ".DWWDDDDDDWWD...",
+      ".DWWWWWWWWWWWD..",
+      ".DWWEDWWWWEDWD..",
+      ".DWWWWWWWWWWWD..",
+      "..DDDDWWWWDDDD.D",
+      "..DWWWWWWWWWD..D",
+      ".DWWWWWWWWWWWWDD",
+      ".DWWWWWWWWWWWWD.",
+      ".DWWWWWWWWWWWWD.",
+      "...DWDDDDDDWD...",
+      "...DD......DD...",
+      "................",
+      "................"
+    ];
+
+    const frameSit = [
+      "................",
+      "................",
+      "...DD......DD...",
+      "..DWWDDDDDDWWD..",
+      "..DWWWWWWWWWWWD.",
+      "..DWWEDWWWWEDWD.",
+      "..DWWWWWWWWWWWD.",
+      "...DDDDWWWWDDDD.",
+      "...DWWWWWWWWWWD.",
+      "...DWWWWWWWWWWD.",
+      "..DWWWWWWWWWWWWD",
+      "..DWWWWWWWWWWWWD",
+      "..DWWWDDDDWWWWWD",
+      "..DDDD....DDDDD.",
+      "................",
+      "................"
+    ];
+
+    function drawSprite(grid, flipX) {
+      ctx.clearRect(0, 0, 16, 16);
+      ctx.save();
+      if (flipX) {
+        ctx.translate(16, 0);
+        ctx.scale(-1, 1);
+      }
+      for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+          const ch = grid[y][x];
+          if (ch === '.') continue;
+          if (ch === 'D') ctx.fillStyle = '#27272a';
+          else if (ch === 'W') ctx.fillStyle = '#e4e4e7';
+          else if (ch === 'E') ctx.fillStyle = '#18181b';
+          ctx.fillRect(x, y, 1, 1);
         }
-        fetchAnimeList();
-    </script>
+      }
+      ctx.restore();
+    }
+
+    let petX = 140;
+    let petDir = 1;
+    let petState = 'walk'; // 'walk' | 'sit' | 'jump'
+    let petTimer = 0;
+    let animTick = 0;
+    let jumpY = 0;
+    const phrases = ["root@arch:~#", "GG WP!", "CS2 Server OK", "WorldSkills #2", "Meow!", "2560x1080"];
+
+    function petInteract() {
+      petState = 'jump';
+      petTimer = 35;
+      bubble.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+      bubble.style.opacity = '1';
+      setTimeout(() => { bubble.style.opacity = '0'; }, 1800);
+    }
+
+    function updatePet() {
+      animTick++;
+      const maxW = window.innerWidth - 64;
+
+      if (petState === 'walk') {
+        petX += petDir * 1.3;
+        if (petX > maxW) { petX = maxW; petDir = -1; }
+        if (petX < 16) { petX = 16; petDir = 1; }
+        if (Math.random() < 0.004) {
+          petState = 'sit';
+          petTimer = 90 + Math.floor(Math.random() * 80);
+        }
+        const f = Math.floor(animTick / 10) % 2 === 0 ? frameRun1 : frameRun2;
+        drawSprite(f, petDir < 0);
+        jumpY = 0;
+      } else if (petState === 'sit') {
+        drawSprite(frameSit, petDir < 0);
+        petTimer--;
+        if (petTimer <= 0) {
+          petState = 'walk';
+          if (Math.random() < 0.5) petDir *= -1;
+        }
+      } else if (petState === 'jump') {
+        jumpY = Math.sin((35 - petTimer) / 35 * Math.PI) * 18;
+        drawSprite(frameRun2, petDir < 0);
+        petTimer--;
+        if (petTimer <= 0) {
+          jumpY = 0;
+          petState = 'walk';
+        }
+      }
+
+      actor.style.left = Math.round(petX) + 'px';
+      actor.style.bottom = Math.round(jumpY) + 'px';
+      requestAnimationFrame(updatePet);
+    }
+
+    requestAnimationFrame(updatePet);
+  </script>
 </body>
 </html>
