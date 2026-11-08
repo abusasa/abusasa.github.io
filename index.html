@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="ru" data-mode="dark" data-pixel="on">
+<html lang="ru" data-mode="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Абусамат Абдулла — abusasa</title>
   <meta name="description" content="Абусамат Абдулла (16 лет, г. Актау) — кибербезопасность (WorldSkills, 2 место), администрирование серверов и разработка.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     @font-face {
-      font-family: 'MinecraftiaCustom';
+      font-family: 'MinecraftFont';
       src: url('./minecraft.ttf') format('truetype');
       font-weight: normal;
       font-style: normal;
@@ -18,340 +15,448 @@
     }
 
     :root[data-mode="dark"] {
-      --bg: #0a0a0a;
-      --text-primary: #f4f4f5;
-      --text-secondary: #a1a1aa;
-      --text-muted: #71717a;
-      --border: #222225;
-      --pill-bg: #141417;
-      --pill-hover: #1f1f24;
-      --link-underline: #3f3f46;
-      --link-hover: #ffffff;
-      --card-subtle: #111113;
+      --bg: #050505;
+      --bg-drawer: #0d0d0f;
+      --text-bright: #f4f4f6;
+      --text-mid: #a1a1aa;
+      --text-dim: #52525b;
+      --text-dim-hover: #8e8e99;
+      --border: #1f1f23;
+      --pill-bg: #121215;
     }
 
     :root[data-mode="light"] {
-      --bg: #fbfbfa;
-      --text-primary: #18181b;
-      --text-secondary: #52525b;
-      --text-muted: #71717a;
+      --bg: #fafafa;
+      --bg-drawer: #f2f2f0;
+      --text-bright: #111113;
+      --text-mid: #52525b;
+      --text-dim: #8e8e96;
+      --text-dim-hover: #3f3f46;
       --border: #e4e4e7;
-      --pill-bg: #f1f1ef;
-      --pill-hover: #e4e4e2;
-      --link-underline: #d4d4d8;
-      --link-hover: #09090b;
-      --card-subtle: #f4f4f2;
+      --pill-bg: #ededeb;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: 'MinecraftFont', monospace;
     }
 
     body {
       background-color: var(--bg);
-      color: var(--text-primary);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 15px;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+      color: var(--text-bright);
+      font-size: 13px;
+      line-height: 1.75;
+      -webkit-font-smoothing: none;
+      font-smooth: never;
+      image-rendering: pixelated;
       transition: background-color 0.15s ease, color 0.15s ease;
       overflow-x: hidden;
     }
 
-    /* Pixel font accents when data-pixel="on" */
-    html[data-pixel="on"] .pixel-heading {
-      font-family: 'MinecraftiaCustom', 'JetBrains Mono', monospace;
-      letter-spacing: 0.02em;
-    }
-
-    html[data-pixel="on"] .pixel-tag {
-      font-family: 'MinecraftiaCustom', 'JetBrains Mono', monospace;
-    }
-
-    .wrap {
-      max-width: 650px;
-      margin: 0 auto;
-      padding: 52px 24px 110px;
-    }
-
-    /* Top utility bar */
-    .topbar {
+    /* Top-left Brian Lovin style '=' menu bar */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 54px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 48px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--text-muted);
-      flex-wrap: wrap;
-      gap: 10px;
+      padding: 0 22px;
+      z-index: 100;
+      background: linear-gradient(to bottom, var(--bg) 70%, transparent);
     }
 
-    .controls {
+    .nav-left {
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+      align-items: center;
+      gap: 14px;
     }
 
-    .btn-toggle {
-      background: var(--pill-bg);
-      color: var(--text-secondary);
-      border: 1px solid var(--border);
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11.5px;
+    .menu-btn {
+      background: transparent;
+      border: none;
       cursor: pointer;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      padding: 4px;
     }
 
-    .btn-toggle:hover {
-      background: var(--pill-hover);
-      color: var(--text-primary);
+    .menu-btn span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background-color: var(--text-mid);
+      transition: transform 0.2s ease, background-color 0.15s ease;
     }
 
-    /* Profile Header with Avatar */
-    .profile-head {
+    .menu-btn:hover span {
+      background-color: var(--text-bright);
+    }
+
+    .menu-btn.open span:nth-child(1) {
+      transform: translateY(3.5px) rotate(45deg);
+    }
+
+    .menu-btn.open span:nth-child(2) {
+      transform: translateY(-3.5px) rotate(-45deg);
+    }
+
+    .nav-brand {
+      font-size: 12px;
+      color: var(--text-mid);
+      text-decoration: none;
+    }
+
+    .nav-right {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 8px;
+    }
+
+    .mini-btn {
+      background: var(--pill-bg);
+      color: var(--text-mid);
+      border: 1px solid var(--border);
+      padding: 4px 9px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .mini-btn:hover {
+      color: var(--text-bright);
+      border-color: var(--text-dim);
+    }
+
+    /* Slide-out Drawer Menu when '=' is clicked */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 90;
+    }
+
+    .drawer-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 270px;
+      background: var(--bg-drawer);
+      border-right: 1px solid var(--border);
+      padding: 68px 22px 28px;
+      transform: translateX(-100%);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 95;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-section {
       margin-bottom: 22px;
     }
 
+    .drawer-label {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .drawer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .drawer-links a, .drawer-links button {
+      color: var(--text-mid);
+      text-decoration: none;
+      font-size: 12px;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      padding: 4px 0;
+      transition: color 0.15s ease;
+    }
+
+    .drawer-links a:hover, .drawer-links button:hover {
+      color: var(--text-bright);
+    }
+
+    /* Main Column (Brian Lovin proportion) */
+    .wrap {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 108px 24px 120px;
+    }
+
+    /* Avatar + Intro */
     .avatar {
-      width: 68px;
-      height: 68px;
-      border-radius: 14px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
       object-fit: cover;
       object-position: center 20%;
       border: 1px solid var(--border);
       background: #ffffff;
-      flex-shrink: 0;
+      margin-bottom: 22px;
+      display: block;
     }
 
-    .profile-meta h1 {
-      font-size: 21px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--text-primary);
-      line-height: 1.25;
-      margin-bottom: 4px;
+    h1 {
+      font-size: 18px;
+      font-weight: normal;
+      color: var(--text-bright);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .age-badge {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11.5px;
-      color: var(--text-secondary);
+    .age-tag {
+      font-size: 11px;
+      color: var(--text-dim);
       background: var(--pill-bg);
       border: 1px solid var(--border);
-      padding: 1px 8px;
-      border-radius: 5px;
-      margin-left: 6px;
-      vertical-align: middle;
+      padding: 1px 7px;
+      border-radius: 4px;
     }
 
-    .subtitle {
+    .lead {
       font-size: 13.5px;
-      color: var(--text-muted);
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 24px;
     }
 
-    .bio {
-      color: var(--text-secondary);
-      margin-bottom: 22px;
-      font-size: 14.8px;
+    .lead strong {
+      color: var(--text-bright);
+      font-weight: normal;
     }
 
-    .bio strong {
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    /* Inline links row */
-    .links-row {
+    /* 3 Social Icons + Resume pills */
+    .social-bar {
       display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 58px;
       flex-wrap: wrap;
-      gap: 8px;
+    }
+
+    .social-icon {
+      color: var(--text-dim);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease, transform 0.15s ease, filter 0.15s ease;
+      text-decoration: none;
+    }
+
+    .social-icon svg {
+      width: 21px;
+      height: 21px;
+      fill: currentColor;
+    }
+
+    /* Bright brand colors on hover! */
+    .social-icon.github:hover {
+      color: #ffffff;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+      transform: translateY(-1px);
+    }
+    :root[data-mode="light"] .social-icon.github:hover {
+      color: #000000;
+    }
+
+    .social-icon.whatsapp:hover {
+      color: #25D366;
+      filter: drop-shadow(0 0 8px rgba(37, 211, 102, 0.55));
+      transform: translateY(-1px);
+    }
+
+    .social-icon.tiktok:hover {
+      color: #ff0050;
+      filter: drop-shadow(-2px -1px 0px #00f2fe) drop-shadow(0 0 8px rgba(255, 0, 80, 0.5));
+      transform: translateY(-1px);
+    }
+
+    .social-divider {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+    }
+
+    .resume-pill {
+      font-size: 11px;
+      color: var(--text-mid);
+      background: var(--pill-bg);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .resume-pill:hover {
+      color: var(--text-bright);
+      border-color: var(--text-mid);
+    }
+
+    /* Sections in Brian Lovin one-line style */
+    section {
       margin-bottom: 52px;
     }
 
-    .pill-link {
-      display: inline-flex;
+    .sec-head {
+      font-size: 11.5px;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+      display: flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      background: var(--pill-bg);
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      transition: background 0.15s ease, transform 0.1s ease;
     }
 
-    .pill-link:hover {
-      background: var(--pill-hover);
-    }
-
-    .pill-link span.muted {
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-    }
-
-    /* Sections */
-    section {
-      margin-bottom: 48px;
-    }
-
-    h2 {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-      letter-spacing: 0.04em;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 6px;
-    }
-
-    .list {
+    .one-line-list {
       display: flex;
       flex-direction: column;
-      gap: 22px;
-    }
-
-    .entry {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .entry-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
       gap: 12px;
     }
 
-    .entry-title {
-      font-weight: 500;
-      color: var(--text-primary);
-      font-size: 15px;
+    .row-item {
+      display: block;
+      text-decoration: none;
+      line-height: 1.65;
+      font-size: 13px;
     }
 
-    .entry-title a {
-      color: var(--text-primary);
+    .row-title {
+      color: var(--text-bright);
+      margin-right: 8px;
+      transition: color 0.15s ease;
+    }
+
+    a.row-item:hover .row-title {
       text-decoration: underline;
-      text-decoration-color: var(--link-underline);
       text-underline-offset: 4px;
-      transition: text-decoration-color 0.15s ease;
     }
 
-    .entry-title a:hover {
-      text-decoration-color: var(--link-hover);
+    .row-desc {
+      color: var(--text-dim);
+      transition: color 0.15s ease;
     }
 
-    .entry-year {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--text-muted);
-      flex-shrink: 0;
+    .row-item:hover .row-desc {
+      color: var(--text-dim-hover);
     }
 
-    .entry-desc {
-      color: var(--text-secondary);
-      font-size: 14px;
-      line-height: 1.62;
+    .upcoming-line {
+      margin-top: 16px;
+      font-size: 11.5px;
+      color: var(--text-dim);
     }
 
-    .upcoming-box {
-      margin-top: 20px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      background: var(--card-subtle);
-      border: 1px dashed var(--border);
-      color: var(--text-secondary);
-      font-size: 13.5px;
-    }
-
-    /* Bottom Photo (No context, cleanly aligned) */
+    /* Bottom Photo (no context, cleanly aligned) */
     .bottom-photo-wrap {
       margin-top: 56px;
-      margin-bottom: 36px;
+      margin-bottom: 32px;
     }
 
     .bottom-photo {
       width: 100%;
       height: auto;
       display: block;
-      border-radius: 10px;
+      border-radius: 8px;
       border: 1px solid var(--border);
     }
 
     footer {
-      font-size: 12.5px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-muted);
+      font-size: 11px;
+      color: var(--text-dim);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
       padding-top: 16px;
       border-top: 1px solid var(--border);
     }
 
-    footer a {
-      color: var(--text-secondary);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      color: var(--text-primary);
-    }
-
-    /* Interactive Pixel Pet Bar at bottom of viewport */
-    #pet-stage {
+    /* Interactive Draggable Minecraft Enderman & Creeper Overlay */
+    #mob-layer {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 54px;
+      inset: 0;
       pointer-events: none;
       z-index: 999;
       overflow: hidden;
     }
 
-    #pet-actor {
+    .mob-entity {
       position: absolute;
-      bottom: 0;
-      left: 120px;
-      width: 48px;
-      height: 48px;
+      width: 64px;
+      height: 96px;
       pointer-events: auto;
-      cursor: pointer;
+      cursor: grab;
       user-select: none;
-      image-rendering: pixelated;
+      touch-action: none;
     }
 
-    #pet-bubble {
+    .mob-entity:active {
+      cursor: grabbing;
+    }
+
+    /* Authentic Minecraft overhead nametag */
+    .mob-nametag {
       position: absolute;
-      bottom: 46px;
+      top: -18px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--pill-bg);
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-      padding: 2px 7px;
-      border-radius: 4px;
-      font-family: 'MinecraftiaCustom', 'JetBrains Mono', monospace;
+      background: rgba(0, 0, 0, 0.55);
+      color: #ffffff;
+      padding: 1px 6px;
       font-size: 10px;
       white-space: nowrap;
+      border-radius: 2px;
+      pointer-events: none;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    .mob-speech {
+      position: absolute;
+      top: -38px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #18181b;
+      color: #e879f9;
+      border: 1px solid #a855f7;
+      padding: 2px 6px;
+      font-size: 10px;
+      white-space: nowrap;
+      border-radius: 3px;
       opacity: 0;
       transition: opacity 0.15s ease;
       pointer-events: none;
@@ -359,269 +464,282 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
 
-    <div class="topbar">
-      <span class="pixel-tag">abusasa.github.io // aktau</span>
-      <div class="controls">
-        <button class="btn-toggle" onclick="togglePixelFont()" id="pixel-btn">Font: Minecraft</button>
-        <button class="btn-toggle" onclick="toggleLang()" id="lang-btn">KZ</button>
-        <button class="btn-toggle" onclick="toggleMode()" id="mode-btn">Светлая</button>
+  <!-- Top Navigation Bar with '=' Menu Button -->
+  <div class="top-nav">
+    <div class="nav-left">
+      <button class="menu-btn" id="menu-btn" onclick="toggleDrawer()" aria-label="Меню">
+        <span></span>
+        <span></span>
+      </button>
+      <a href="#" class="nav-brand" data-i18n="name_nav">Абусамат Абдулла</a>
+    </div>
+    <div class="nav-right">
+      <button class="mini-btn" onclick="spawnOrToggleCreeper()" id="creeper-btn">+ Creeper</button>
+      <button class="mini-btn" onclick="toggleLang()" id="lang-btn">KZ</button>
+      <button class="mini-btn" onclick="toggleMode()" id="mode-btn">Светлая</button>
+    </div>
+  </div>
+
+  <!-- Slide-out Drawer Menu (Sorted Index) -->
+  <div class="drawer-backdrop" id="drawer-backdrop" onclick="toggleDrawer()"></div>
+  <aside class="drawer" id="drawer">
+    <div>
+      <div class="drawer-section">
+        <div class="drawer-label">Навигация</div>
+        <div class="drawer-links">
+          <a href="#top" onclick="toggleDrawer()">О себе</a>
+          <a href="#achievements" onclick="toggleDrawer()">Достижения</a>
+          <a href="#projects" onclick="toggleDrawer()">Проекты</a>
+          <a href="#skills" onclick="toggleDrawer()">Навыки и учёба</a>
+          <a href="#photo" onclick="toggleDrawer()">Фото</a>
+        </div>
+      </div>
+
+      <div class="drawer-section">
+        <div class="drawer-label">Документы (PDF)</div>
+        <div class="drawer-links">
+          <a href="./Abusamat_Abdulla_Resume_RU.pdf" download>Резюме (RU.pdf) ↓</a>
+          <a href="./Abusamat_Abdulla_Resume_KZ.pdf" download>Түйіндеме (KZ.pdf) ↓</a>
+        </div>
+      </div>
+
+      <div class="drawer-section">
+        <div class="drawer-label">Интерактив (Minecraft)</div>
+        <div class="drawer-links">
+          <button onclick="teleportEnderman(); toggleDrawer();">Телепортировать Эндермена</button>
+          <button onclick="spawnOrToggleCreeper(); toggleDrawer();">Позвать / убрать Крипера</button>
+        </div>
       </div>
     </div>
 
-    <header>
-      <div class="profile-head">
-        <img src="./avatar.jpg" alt="Абусамат Абдулла" class="avatar">
-        <div class="profile-meta">
-          <h1>
-            <span class="pixel-heading" data-i18n="name">Абусамат Абдулла</span>
-            <span class="age-badge" data-i18n="age">16 лет</span>
-          </h1>
-          <div class="subtitle" data-i18n="role">Кибербезопасность, администрирование серверов и разработка</div>
-        </div>
-      </div>
+    <div style="font-size: 10px; color: var(--text-dim);">
+      Мышкой можно хватать и перетаскивать Эндермена по экрану.
+    </div>
+  </aside>
 
-      <p class="bio" data-i18n="bio">
-        Учусь на 2 курсе колледжа <strong>Yessenov</strong> в Актау (грант, информационные системы). С 2022 года занимаюсь операционными системами, сетями и компьютерами: от низкоуровневой настройки <strong>Arch Linux</strong> и восстановления систем до пентеста, администрирования игровых серверов и сборки прикладных веб- и мобильных проектов.
-      </p>
+  <main class="wrap" id="top">
 
-      <div class="links-row">
-        <a href="./Abusamat_Abdulla_Resume_RU.pdf" download class="pill-link">
-          <span data-i18n="btn_ru">Резюме</span> <span class="muted">RU.pdf</span>
-        </a>
-        <a href="./Abusamat_Abdulla_Resume_KZ.pdf" download class="pill-link">
-          <span data-i18n="btn_kz">Түйіндеме</span> <span class="muted">KZ.pdf</span>
-        </a>
-        <a href="https://wa.me/77788046920" target="_blank" rel="noreferrer" class="pill-link">
-          <span>WhatsApp</span> <span class="muted">+7 778 804 69 20</span>
-        </a>
-        <a href="https://github.com/abusasa" target="_blank" rel="noreferrer" class="pill-link">
-          <span>GitHub</span> <span class="muted">@abusasa</span>
-        </a>
-      </div>
-    </header>
+    <!-- Avatar + Name + 16 y.o. + Bio -->
+    <img src="./avatar.jpg" alt="Абусамат Абдулла" class="avatar">
 
-    <!-- 1. Достижения и опыт -->
-    <section>
-      <h2 class="pixel-heading" data-i18n="sec_ach">Достижения и опыт</h2>
-      <div class="list">
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title" data-i18n="a1_title">2-е место — WorldSkills Kazakhstan (Кибербезопасность)</span>
-            <span class="entry-year" data-i18n="a1_meta">Модули А и Б</span>
-          </div>
-          <p class="entry-desc" data-i18n="a1_desc">
-            Проникновение в целевые системы (Nmap, эксплуатация уязвимостей и RCE-эксплойты через Metasploit/Meterpreter), декодирование и подмена JWT-токенов, повышение привилегий до root, криптография (XOR-дешифрование на Python), восстановление повреждённых заголовков файлов (magic bytes), стеганография и шифрование разделов.
-          </p>
-        </div>
+    <h1>
+      <span data-i18n="name">Абусамат Абдулла</span>
+      <span class="age-tag" data-i18n="age">16 лет</span>
+    </h1>
 
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title" data-i18n="a2_title">Главный администратор серверов CS2 &amp; Хакатон-состав колледжа</span>
-            <span class="entry-year">2026</span>
-          </div>
-          <p class="entry-desc" data-i18n="a2_desc">
-            Администрировал игровые серверы на киберспортивных турнирах по CS2 в технопарке (назначен главным по серверной части организатором Матвеем при участии профильного преподавателя). Также выделен колледжем Yessenov в основной состав команды на предстоящие хакатоны.
-          </p>
+    <p class="lead" data-i18n="bio">
+      Живу в Актау, учусь на 2 курсе колледжа <strong>Yessenov</strong> (грант, ИС). С 2022 года занимаюсь операционными системами (<strong>Arch Linux</strong>, Windows), кибербезопасностью, администрированием игровых серверов и сборкой прикладных проектов.
+    </p>
+
+    <!-- 3 Social Icons (GitHub, WhatsApp, TikTok) + PDF Resumes -->
+    <div class="social-bar">
+      <!-- GitHub -->
+      <a href="https://github.com/abusasa" target="_blank" rel="noreferrer" class="social-icon github" title="GitHub (@abusasa)">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/77788046920" target="_blank" rel="noreferrer" class="social-icon whatsapp" title="WhatsApp (+7 778 804 69 20)">
+        <svg viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.127.558 4.198 1.617 6.008l-1.617 5.992 6.135-1.594c1.766.969 3.766 1.594 5.865 1.594 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/></svg>
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com" target="_blank" rel="noreferrer" class="social-icon tiktok" title="TikTok">
+        <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      </a>
+
+      <div class="social-divider"></div>
+
+      <a href="./Abusamat_Abdulla_Resume_RU.pdf" download class="resume-pill">Резюме RU.pdf</a>
+      <a href="./Abusamat_Abdulla_Resume_KZ.pdf" download class="resume-pill">Түйіндеме KZ.pdf</a>
+    </div>
+
+    <!-- 1. Достижения (Brian Lovin one-line format) -->
+    <section id="achievements">
+      <div class="sec-head"><span data-i18n="sec_ach">Достижения и опыт</span> <span>›</span></div>
+      <div class="one-line-list">
+        <div class="row-item">
+          <span class="row-title" data-i18n="a1_t">WorldSkills Kazakhstan (2 место)</span>
+          <span class="row-desc" data-i18n="a1_d">Кибербезопасность (Модули А и Б): проникновение в системы, RCE-эксплойты, подмена JWT, криптография и шифрование разделов</span>
         </div>
 
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title" data-i18n="a3_title">Администрирование ОС, аппаратная диагностика и локальные ИИ</span>
-            <span class="entry-year">2022 — 2026</span>
-          </div>
-          <p class="entry-desc" data-i18n="a3_desc">
-            Более 4 лет плотной технической практики: настройка Arch Linux (Hyprland) и Windows 11 в dual-boot, восстановление загрузчиков и файловых систем, развёртывание локальных языковых моделей (Ollama, LM Studio, CUDA) и выполнение коммерческих заказов.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. Образование и навыки -->
-    <section>
-      <h2 class="pixel-heading" data-i18n="sec_edu">Образование и навыки</h2>
-      <div class="list">
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title" data-i18n="edu_title">Колледж Yessenov, г. Актау</span>
-            <span class="entry-year" data-i18n="edu_year">2 курс, грант</span>
-          </div>
-          <p class="entry-desc" data-i18n="edu_desc">
-            Специальность «Вычислительная техника и информационные системы». Языки: казахский (родной), русский (свободно).
-          </p>
+        <div class="row-item">
+          <span class="row-title" data-i18n="a2_t">Главный админ серверов CS2</span>
+          <span class="row-desc" data-i18n="a2_d">Управлял игровыми серверами на киберспортивных турнирах в технопарке (совместно с организатором Матвеем и преподавателем)</span>
         </div>
 
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title" data-i18n="sk_title">Техническая база</span>
-          </div>
-          <p class="entry-desc" data-i18n="sk_desc">
-            Пентест и CTF (TryHackMe, Nmap, Metasploit, binwalk, криптография), администрирование Linux / Windows и игровых серверов, понимание клиент-серверной логики, работа с БД (Supabase), Git, деплой на Vercel и быстрая сборка проектов на Next.js, Flutter и Python с помощью AI-инструментов.
-          </p>
+        <div class="row-item">
+          <span class="row-title" data-i18n="a3_t">Хакатон-состав Yessenov (2026)</span>
+          <span class="row-desc" data-i18n="a3_d">Выделен колледжем в команду разработчиков (бэкенд и логика) на предстоящие хакатоны</span>
+        </div>
+
+        <div class="row-item">
+          <span class="row-title" data-i18n="a4_t">Системы и железо (с 2022 г.)</span>
+          <span class="row-desc" data-i18n="a4_d">4+ года практики с Arch Linux (Hyprland), Windows 11, разделами дисков и локальными ИИ (Ollama, CUDA)</span>
         </div>
       </div>
     </section>
 
-    <!-- 3. Проекты -->
-    <section>
-      <h2 class="pixel-heading" data-i18n="sec_proj">Проекты</h2>
-      <div class="list">
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title" data-i18n="p1_title">CollegeDu &amp; JooTime</span>
-            <span class="entry-year">Flutter</span>
-          </div>
-          <p class="entry-desc" data-i18n="p1_desc">
-            Приложение для улучшения цифровой экосистемы колледжа: расписание пар, журнал успеваемости, предзаказ в столовой без очередей, объявления куратора и ИИ-помощник студента (RU / KZ), а также концепт оплаты стиральных машин в общежитии через Kaspi.
-          </p>
+    <!-- 2. Проекты (Brian Lovin one-line format: Bright Title + Muted Description) -->
+    <section id="projects">
+      <div class="sec-head"><span data-i18n="sec_proj">Проекты</span> <span>›</span></div>
+      <div class="one-line-list">
+        <div class="row-item">
+          <span class="row-title">CollegeDu</span>
+          <span class="row-desc" data-i18n="p1_d">Приложение для экосистемы колледжа: расписание, табель, предзаказ в столовой и ИИ-помощник</span>
         </div>
 
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title"><a href="https://origin-pwa.vercel.app" target="_blank" rel="noreferrer">Autostudio PWA &amp; CRM ↗</a></span>
-            <span class="entry-year">origin-pwa.vercel.app</span>
-          </div>
-          <p class="entry-desc" data-i18n="p2_desc">
-            Каталог и PWA-сайты онлайн-записи с панелью управления заявками для 25 автосервисов Актау на базе реальных данных из 2ГИС и интеграцией с WhatsApp.
-          </p>
+        <a href="https://origin-pwa.vercel.app" target="_blank" rel="noreferrer" class="row-item">
+          <span class="row-title">Autostudio PWA ↗</span>
+          <span class="row-desc" data-i18n="p2_d">Платформа онлайн-записи и CRM-панель для 25 автосервисов Актау из 2ГИС</span>
+        </a>
+
+        <a href="https://mangistau.vercel.app/" target="_blank" rel="noreferrer" class="row-item">
+          <span class="row-title">Mangistau IT Service ↗</span>
+          <span class="row-desc" data-i18n="p3_d">Сервисный сайт компьютерного мастера в Мангистау с заявками в WhatsApp</span>
+        </a>
+
+        <div class="row-item">
+          <span class="row-title">Qazaqpedia</span>
+          <span class="row-desc" data-i18n="p4_d">Образовательная энциклопедия на казахском языке с разделом Qazaq AI</span>
         </div>
 
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title"><a href="https://mangistau.vercel.app/" target="_blank" rel="noreferrer" data-i18n="p3_title">Компьютерный сервис в Мангистау ↗</a></span>
-            <span class="entry-year">mangistau.vercel.app</span>
-          </div>
-          <p class="entry-desc" data-i18n="p3_desc">
-            Сайт для приёма заявок на переустановку Windows, настройку программ и обслуживание ПК с быстрым переходом в WhatsApp.
-          </p>
+        <div class="row-item">
+          <span class="row-title">JooTime &amp; Kezeksiz</span>
+          <span class="row-desc" data-i18n="p5_d">Мобильные прототипы оплаты стирки в общежитии через Kaspi и электронной очереди</span>
         </div>
 
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title">Qazaqpedia</span>
-            <span class="entry-year">Next.js</span>
-          </div>
-          <p class="entry-desc" data-i18n="p4_desc">
-            Прототип образовательной платформы-энциклопедии на казахском языке с поиском по статьям и разделом Qazaq AI.
-          </p>
-        </div>
-
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title"><a href="https://github.com/abusasa/2GIS-auto" target="_blank" rel="noreferrer" data-i18n="p5_title">Парсер 2ГИС и автоматизация WhatsApp ↗</a></span>
-            <span class="entry-year">Python / Selenium</span>
-          </div>
-          <p class="entry-desc" data-i18n="p5_desc">
-            Скрипты для сбора местных компаний без сайта из 2ГИС и автоматической отправки предложений через WhatsApp Web.
-          </p>
-        </div>
+        <a href="https://github.com/abusasa/2GIS-auto" target="_blank" rel="noreferrer" class="row-item">
+          <span class="row-title">2GIS &amp; WhatsApp Bot ↗</span>
+          <span class="row-desc" data-i18n="p6_d">Python-скрипты парсинга компаний без сайта и авторассылки через Selenium</span>
+        </a>
       </div>
 
-      <div class="upcoming-box" data-i18n="upcoming_note">
-        Постоянно развиваюсь в сфере IT и кибербезопасности — в ближайшее время здесь появятся новые самостоятельные проекты и инструменты.
+      <div class="upcoming-line" data-i18n="upcoming">
+        * Развиваясь в IT-сфере, ожидаются новые пополнения по проектам.
       </div>
     </section>
 
-    <!-- Bottom Photo with friends (no caption/context, cleanly aligned) -->
-    <div class="bottom-photo-wrap">
+    <!-- 3. Образование и база -->
+    <section id="skills">
+      <div class="sec-head"><span data-i18n="sec_edu">Образование и база</span> <span>›</span></div>
+      <div class="one-line-list">
+        <div class="row-item">
+          <span class="row-title" data-i18n="e1_t">Колледж Yessenov</span>
+          <span class="row-desc" data-i18n="e1_d">2 курс, государственный грант (ВТиПО / Информационные системы). Языки: казахский, русский</span>
+        </div>
+
+        <div class="row-item">
+          <span class="row-title" data-i18n="e2_t">Стек и инструменты</span>
+          <span class="row-desc" data-i18n="e2_d">Пентест (Nmap, Metasploit, CTF), Linux / Windows, БД Supabase, Git, Vercel и AI-сборка на Next.js, Flutter, Python</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Photo with friends (no context, cleanly aligned) -->
+    <div class="bottom-photo-wrap" id="photo">
       <img src="./friends.jpg" alt="" class="bottom-photo" loading="lazy">
     </div>
 
     <footer>
-      <span>Абусамат Абдулла • Актау, 2026</span>
-      <div>
-        <a href="mailto:abdullaabusamat2@gmail.com">abdullaabusamat2@gmail.com</a>
-      </div>
+      <span>abusasa.github.io • Актау, 2026</span>
+      <span>Enderman пет внизу экрана (можно таскать мышкой)</span>
     </footer>
 
-  </div>
+  </main>
 
-  <!-- Interactive Pixel Pet wandering across the bottom -->
-  <div id="pet-stage">
-    <div id="pet-actor" onclick="petInteract()" title="Нажми на питомца">
-      <div id="pet-bubble">GG WP!</div>
-      <canvas id="pet-canvas" width="16" height="16" style="width:48px;height:48px;image-rendering:pixelated;"></canvas>
+  <!-- Interactive Draggable Minecraft Enderman & Creeper Layer -->
+  <div id="mob-layer">
+    <!-- Enderman -->
+    <div id="enderman" class="mob-entity" style="left: 160px; bottom: 0px;">
+      <div class="mob-nametag">Enderman</div>
+      <div class="mob-speech" id="ender-speech">*vwoop*</div>
+      <canvas id="ender-canvas" width="32" height="48" style="width:64px;height:96px;image-rendering:pixelated;"></canvas>
+    </div>
+
+    <!-- Optional Creeper -->
+    <div id="creeper" class="mob-entity" style="left: 280px; bottom: 0px; display: none;">
+      <div class="mob-nametag">Creeper</div>
+      <div class="mob-speech" id="creeper-speech" style="color:#4ade80;border-color:#22c55e;">Tssss...</div>
+      <canvas id="creeper-canvas" width="32" height="48" style="width:64px;height:96px;image-rendering:pixelated;"></canvas>
     </div>
   </div>
 
   <script>
-    let currentLang = 'ru';
-    let currentMode = 'dark';
-    let pixelFontOn = true;
+    // --- UI & DRAWER ---
+    function toggleDrawer() {
+      document.getElementById('drawer').classList.toggle('open');
+      document.getElementById('drawer-backdrop').classList.toggle('open');
+      document.getElementById('menu-btn').classList.toggle('open');
+    }
 
+    let currentMode = 'dark';
+    function toggleMode() {
+      currentMode = currentMode === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-mode', currentMode);
+      document.getElementById('mode-btn').textContent = currentMode === 'dark' ? 'Светлая' : 'Тёмная';
+    }
+
+    let currentLang = 'ru';
     const dict = {
       ru: {
+        name_nav: "Абусамат Абдулла",
         name: "Абусамат Абдулла",
         age: "16 лет",
-        role: "Кибербезопасность, администрирование серверов и разработка",
-        bio: "Учусь на 2 курсе колледжа <strong>Yessenov</strong> в Актау (грант, информационные системы). С 2022 года занимаюсь операционными системами, сетями и компьютерами: от низкоуровневой настройки <strong>Arch Linux</strong> и восстановления систем до пентеста, администрирования игровых серверов и сборки прикладных веб- и мобильных проектов.",
-        btn_ru: "Резюме",
-        btn_kz: "Түйіндеме",
+        bio: "Живу в Актау, учусь на 2 курсе колледжа <strong>Yessenov</strong> (грант, ИС). С 2022 года занимаюсь операционными системами (<strong>Arch Linux</strong>, Windows), кибербезопасностью, администрированием игровых серверов и сборкой прикладных проектов.",
         sec_ach: "Достижения и опыт",
-        a1_title: "2-е место — WorldSkills Kazakhstan (Кибербезопасность)",
-        a1_meta: "Модули А и Б",
-        a1_desc: "Проникновение в целевые системы (Nmap, эксплуатация уязвимостей и RCE-эксплойты через Metasploit/Meterpreter), декодирование и подмена JWT-токенов, повышение привилегий до root, криптография (XOR-дешифрование на Python), восстановление повреждённых заголовков файлов (magic bytes), стеганография и шифрование разделов.",
-        a2_title: "Главный администратор серверов CS2 & Хакатон-состав колледжа",
-        a2_desc: "Администрировал игровые серверы на киберспортивных турнирах по CS2 в технопарке (назначен главным по серверной части организатором Матвеем при участии профильного преподавателя). Также выделен колледжем Yessenov в основной состав команды на предстоящие хакатоны.",
-        a3_title: "Администрирование ОС, аппаратная диагностика и локальные ИИ",
-        a3_desc: "Более 4 лет плотной технической практики: настройка Arch Linux (Hyprland) и Windows 11 в dual-boot, восстановление загрузчиков и файловых систем, развёртывание локальных языковых моделей (Ollama, LM Studio, CUDA) и выполнение коммерческих заказов.",
-        sec_edu: "Образование и навыки",
-        edu_title: "Колледж Yessenov, г. Актау",
-        edu_year: "2 курс, грант",
-        edu_desc: "Специальность «Вычислительная техника и информационные системы». Языки: казахский (родной), русский (свободно).",
-        sk_title: "Техническая база",
-        sk_desc: "Пентест и CTF (TryHackMe, Nmap, Metasploit, binwalk, криптография), администрирование Linux / Windows и игровых серверов, понимание клиент-серверной логики, работа с БД (Supabase), Git, деплой на Vercel и быстрая сборка проектов на Next.js, Flutter и Python с помощью AI-инструментов.",
+        a1_t: "WorldSkills Kazakhstan (2 место)",
+        a1_d: "Кибербезопасность (Модули А и Б): проникновение в системы, RCE-эксплойты, подмена JWT, криптография и шифрование разделов",
+        a2_t: "Главный админ серверов CS2",
+        a2_d: "Управлял игровыми серверами на киберспортивных турнирах в технопарке (совместно с организатором Матвеем и преподавателем)",
+        a3_t: "Хакатон-состав Yessenov (2026)",
+        a3_d: "Выделен колледжем в команду разработчиков (бэкенд и логика) на предстоящие хакатоны",
+        a4_t: "Системы и железо (с 2022 г.)",
+        a4_d: "4+ года практики с Arch Linux (Hyprland), Windows 11, разделами дисков и локальными ИИ (Ollama, CUDA)",
         sec_proj: "Проекты",
-        p1_title: "CollegeDu & JooTime",
-        p1_desc: "Приложение для улучшения цифровой экосистемы колледжа: расписание пар, журнал успеваемости, предзаказ в столовой без очередей, объявления куратора и ИИ-помощник студента (RU / KZ), а также концепт оплаты стиральных машин в общежитии через Kaspi.",
-        p2_desc: "Каталог и PWA-сайты онлайн-записи с панелью управления заявками для 25 автосервисов Актау на базе реальных данных из 2ГИС и интеграцией с WhatsApp.",
-        p3_title: "Компьютерный сервис в Мангистау ↗",
-        p3_desc: "Сайт для приёма заявок на переустановку Windows, настройку программ и обслуживание ПК с быстрым переходом в WhatsApp.",
-        p4_desc: "Прототип образовательной платформы-энциклопедии на казахском языке с поиском по статьям и разделом Qazaq AI.",
-        p5_title: "Парсер 2ГИС и автоматизация WhatsApp ↗",
-        p5_desc: "Скрипты для сбора местных компаний без сайта из 2ГИС и автоматической отправки предложений через WhatsApp Web.",
-        upcoming_note: "Постоянно развиваюсь в сфере IT и кибербезопасности — в ближайшее время здесь появятся новые самостоятельные проекты и инструменты."
+        p1_d: "Приложение для экосистемы колледжа: расписание, табель, предзаказ в столовой и ИИ-помощник",
+        p2_d: "Платформа онлайн-записи и CRM-панель для 25 автосервисов Актау из 2ГИС",
+        p3_d: "Сервисный сайт компьютерного мастера в Мангистау с заявками в WhatsApp",
+        p4_d: "Образовательная энциклопедия на казахском языке с разделом Qazaq AI",
+        p5_d: "Мобильные прототипы оплаты стирки в общежитии через Kaspi и электронной очереди",
+        p6_d: "Python-скрипты парсинга компаний без сайта и авторассылки через Selenium",
+        upcoming: "* Развиваясь в IT-сфере, ожидаются новые пополнения по проектам.",
+        sec_edu: "Образование и база",
+        e1_t: "Колледж Yessenov",
+        e1_d: "2 курс, государственный грант (ВТиПО / Информационные системы). Языки: казахский, русский",
+        e2_t: "Стек и инструменты",
+        e2_d: "Пентест (Nmap, Metasploit, CTF), Linux / Windows, БД Supabase, Git, Vercel и AI-сборка на Next.js, Flutter, Python"
       },
       kz: {
+        name_nav: "Абусамат Абдулла",
         name: "Абусамат Абдулла",
         age: "16 жас",
-        role: "Киберқауіпсіздік, серверлерді әкімшілендіру және әзірлеу",
-        bio: "Ақтаудағы <strong>Yessenov</strong> колледжінің 2-курс студентімін (грант, ақпараттық жүйелер). 2022 жылдан бері операциялық жүйелермен, желілермен және компьютермен айналысамын: <strong>Arch Linux</strong> баптау мен жүйені қалпына келтіруден бастап, пентест, ойын серверлерін басқару және веб пен мобильді жобаларды құрастыруға дейін.",
-        btn_ru: "Резюме",
-        btn_kz: "Түйіндеме",
+        bio: "Ақтауда тұрамын, <strong>Yessenov</strong> колледжінің 2-курсында оқимын (грант, АЖ). 2022 жылдан бері операциялық жүйелермен (<strong>Arch Linux</strong>, Windows), киберқауіпсіздікпен, ойын серверлерін әкімшілендірумен және жобалар құрастырумен айналысамын.",
         sec_ach: "Жетістіктер мен тәжірибе",
-        a1_title: "2-орын — WorldSkills Kazakhstan (Киберқауіпсіздік)",
-        a1_meta: "А және Б модульдері",
-        a1_desc: "Нысаналы жүйелерге ену (Nmap, Metasploit/Meterpreter арқылы RCE-эксплойттар), JWT-токендерді декодтау, артықшылықтарды root деңгейіне көтеру, криптография (Python XOR), зақымдалған файл сигнатураларын қалпына келтіру (magic bytes), стеганография және диск бөлімдерін шифрлау.",
-        a2_title: "CS2 серверлерінің бас әкімшісі & Колледж хакатон командасы",
-        a2_desc: "Технопарктегі CS2 киберспорт турнирлерінде ойын серверлерінің бас әкімшісі болдым (турнир ұйымдастырушысы Матвей және пән оқытушысы растайды). Сондай-ақ Yessenov колледжі тарапынан алдағы хакатондарға негізгі команда құрамына таңдалдым.",
-        a3_title: "ОЖ әкімшілендіру, аппараттық диагностика және жергілікті ЖИ",
-        a3_desc: "4 жылдан астам практикалық тәжірибе: Arch Linux (Hyprland) және Windows 11 жүйелерін dual-boot режимінде баптау, жүктегіштер мен файлдық жүйелерді қалпына келтіру, жергілікті тілдік модельдерді (Ollama, LM Studio, CUDA) іске қосу.",
-        sec_edu: "Білімі және дағдылар",
-        edu_title: "Yessenov College, Ақтау қ.",
-        edu_year: "2-курс, грант",
-        edu_desc: "«Есептеу техникасы және ақпараттық жүйелер» мамандығы. Тілдер: қазақ тілі (ана тілі), орыс тілі (еркін).",
-        sk_title: "Техникалық база",
-        sk_desc: "Пентест және CTF (TryHackMe, Nmap, Metasploit, binwalk, криптография), Linux / Windows және ойын серверлерін әкімшілендіру, клиент-серверлік логика, дерекқорлар (Supabase), Git, Vercel деплой және ЖИ көмегімен Next.js, Flutter, Python жобаларын жинау.",
+        a1_t: "WorldSkills Kazakhstan (2-орын)",
+        a1_d: "Киберқауіпсіздік (А және Б модульдері): жүйеге ену, RCE-эксплойттар, JWT түрлендіру, криптография және бөлімдерді шифрлау",
+        a2_t: "CS2 серверлерінің бас әкімшісі",
+        a2_d: "Технопарктегі киберспорт турнирлерінде ойын серверлерін басқардым (ұйымдастырушы Матвей және оқытушымен бірге)",
+        a3_t: "Yessenov хакатон құрамасы (2026)",
+        a3_d: "Алдағы хакатондарға қатысу үшін колледждің әзірлеушілер командасына таңдалдым",
+        a4_t: "Жүйелер мен жабдықтар (2022 ж. бері)",
+        a4_d: "Arch Linux (Hyprland), Windows 11, диск бөлімдері және жергілікті ЖИ (Ollama, CUDA) бойынша 4+ жыл тәжірибе",
         sec_proj: "Жобалар",
-        p1_title: "CollegeDu & JooTime",
-        p1_desc: "Колледждің цифрлық экожүйесін жақсартуға арналған қосымша: сабақ кестесі, үлгерім журналы, асханада кезексіз алдын ала тапсырыс беру, куратор хабарландырулары және студенттің ЖИ-көмекшісі (RU / KZ), сондай-ақ Kaspi арқылы кір жуғыш машиналарды төлеу концепті.",
-        p2_desc: "2ГИС нақты деректері негізінде Ақтаудағы 25 автосервис үшін онлайн-жазылу PWA-сайттары және WhatsApp-пен интеграцияланған тапсырыстар панелі.",
-        p3_title: "Маңғыстаудағы компьютерлік сервис ↗",
-        p3_desc: "Windows орнату, бағдарламаларды баптау және ДК қызмет көрсетуге өтінімдерді тікелей WhatsApp арқылы қабылдайтын сайт.",
-        p4_desc: "Мақалалар бойынша іздеуі және Qazaq AI бөлімі бар қазақ тіліндегі білім беру энциклопедиясының прототипі.",
-        p5_title: "2ГИС парсері және WhatsApp автоматтандыру ↗",
-        p5_desc: "2ГИС-тен сайты жоқ жергілікті компанияларды жинауға және WhatsApp Web арқылы ұсыныстарды автоматты түрде жіберуге арналған скрипттер.",
-        upcoming_note: "IT және киберқауіпсіздік саласында үздіксіз дамып келемін — жақын арада мұнда жаңа дербес жобалар мен құралдар қосылады."
+        p1_d: "Колледж экожүйесіне арналған қосымша: кесте, журнал, асханада алдын ала тапсырыс және ЖИ-көмекші",
+        p2_d: "2ГИС-тегі Ақтаудың 25 автосервисіне арналған онлайн-жазылу платформасы мен CRM-панелі",
+        p3_d: "Маңғыстаудағы компьютерлік шебер сайты (WhatsApp өтінімдерімен)",
+        p4_d: "Qazaq AI бөлімі бар қазақ тіліндегі білім беру энциклопедиясы",
+        p5_d: "Жатақханада Kaspi арқылы кір жууды төлеу және электронды кезек прототиптері",
+        p6_d: "2ГИС-тен сайты жоқ компанияларды жинау және Selenium арқылы хабарлама жіберу скрипттері",
+        upcoming: "* IT саласында даму барысында жаңа жобалармен толығады.",
+        sec_edu: "Білімі және база",
+        e1_t: "Yessenov College",
+        e1_d: "2-курс, мемлекеттік грант (Ақпараттық жүйелер). Тілдер: қазақ тілі, орыс тілі",
+        e2_t: "Стек және құралдар",
+        e2_d: "Пентест (Nmap, Metasploit, CTF), Linux / Windows, Supabase ДҚ, Git, Vercel және Next.js, Flutter, Python"
       }
     };
-
-    function togglePixelFont() {
-      pixelFontOn = !pixelFontOn;
-      document.documentElement.setAttribute('data-pixel', pixelFontOn ? 'on' : 'off');
-      document.getElementById('pixel-btn').textContent = pixelFontOn ? 'Font: Minecraft' : 'Font: Clean';
-    }
 
     function toggleLang() {
       currentLang = currentLang === 'ru' ? 'kz' : 'ru';
@@ -636,150 +754,300 @@
       });
     }
 
-    function toggleMode() {
-      currentMode = currentMode === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-mode', currentMode);
-      document.getElementById('mode-btn').textContent = currentMode === 'dark' ? 'Светлая' : 'Тёмная';
-    }
+    // --- MINECRAFT ENDERMAN & CREEPER ENGINE ---
+    const enderEl = document.getElementById('enderman');
+    const enderCanvas = document.getElementById('ender-canvas');
+    const eCtx = enderCanvas.getContext('2d');
+    const enderSpeech = document.getElementById('ender-speech');
 
-    // --- PIXEL PET ENGINE (16x16 Pixel Cat/Wolf Sprite) ---
-    const canvas = document.getElementById('pet-canvas');
-    const ctx = canvas.getContext('2d');
-    const actor = document.getElementById('pet-actor');
-    const bubble = document.getElementById('pet-bubble');
+    const creeperEl = document.getElementById('creeper');
+    const creeperCanvas = document.getElementById('creeper-canvas');
+    const cCtx = creeperCanvas.getContext('2d');
+    const creeperSpeech = document.getElementById('creeper-speech');
 
-    // 16x16 pixel art frames (W = white/light gray, G = mid gray, D = dark outline, E = eyes)
-    const frameRun1 = [
-      "................",
-      "................",
-      "..DD......DD....",
-      ".DWWDDDDDDWWD...",
-      ".DWWWWWWWWWWWD..",
-      ".DWWEDWWWWEDWD..",
-      ".DWWWWWWWWWWWD..",
-      "..DDDDWWWWDDDD..",
-      "..DWWWWWWWWWD..D",
-      ".DWWWWWWWWWWWD.D",
-      ".DWWWWWWWWWWWWDD",
-      ".DWWWWWWWWWWWWD.",
-      "..DWWDDDDDDWWD..",
-      "..DWD......DWD..",
-      "..DD........DD..",
-      "................"
-    ];
+    // Enderman state
+    const ender = {
+      x: 180,
+      y: 0,
+      vx: 1.1,
+      dir: 1,
+      dragging: false,
+      dragOffsetX: 0,
+      dragOffsetY: 0,
+      state: 'walk', // 'walk' | 'idle' | 'sleep'
+      timer: 0,
+      particles: []
+    };
 
-    const frameRun2 = [
-      "................",
-      "................",
-      "..DD......DD....",
-      ".DWWDDDDDDWWD...",
-      ".DWWWWWWWWWWWD..",
-      ".DWWEDWWWWEDWD..",
-      ".DWWWWWWWWWWWD..",
-      "..DDDDWWWWDDDD.D",
-      "..DWWWWWWWWWD..D",
-      ".DWWWWWWWWWWWWDD",
-      ".DWWWWWWWWWWWWD.",
-      ".DWWWWWWWWWWWWD.",
-      "...DWDDDDDDWD...",
-      "...DD......DD...",
-      "................",
-      "................"
-    ];
+    // Creeper state
+    const creeper = {
+      active: false,
+      x: 340,
+      y: 0,
+      dir: -1,
+      dragging: false,
+      dragOffsetX: 0,
+      dragOffsetY: 0,
+      state: 'walk',
+      timer: 0
+    };
 
-    const frameSit = [
-      "................",
-      "................",
-      "...DD......DD...",
-      "..DWWDDDDDDWWD..",
-      "..DWWWWWWWWWWWD.",
-      "..DWWEDWWWWEDWD.",
-      "..DWWWWWWWWWWWD.",
-      "...DDDDWWWWDDDD.",
-      "...DWWWWWWWWWWD.",
-      "...DWWWWWWWWWWD.",
-      "..DWWWWWWWWWWWWD",
-      "..DWWWWWWWWWWWWD",
-      "..DWWWDDDDWWWWWD",
-      "..DDDD....DDDDD.",
-      "................",
-      "................"
-    ];
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight - 40;
+    let chaseCursor = false;
 
-    function drawSprite(grid, flipX) {
-      ctx.clearRect(0, 0, 16, 16);
-      ctx.save();
-      if (flipX) {
-        ctx.translate(16, 0);
-        ctx.scale(-1, 1);
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (ender.dragging) {
+        ender.x = Math.max(0, Math.min(window.innerWidth - 64, e.clientX - ender.dragOffsetX));
+        ender.y = Math.max(0, Math.min(window.innerHeight - 96, window.innerHeight - e.clientY - ender.dragOffsetY));
       }
-      for (let y = 0; y < 16; y++) {
-        for (let x = 0; x < 16; x++) {
-          const ch = grid[y][x];
-          if (ch === '.') continue;
-          if (ch === 'D') ctx.fillStyle = '#27272a';
-          else if (ch === 'W') ctx.fillStyle = '#e4e4e7';
-          else if (ch === 'E') ctx.fillStyle = '#18181b';
-          ctx.fillRect(x, y, 1, 1);
-        }
+      if (creeper.dragging) {
+        creeper.x = Math.max(0, Math.min(window.innerWidth - 64, e.clientX - creeper.dragOffsetX));
+        creeper.y = Math.max(0, Math.min(window.innerHeight - 96, window.innerHeight - e.clientY - creeper.dragOffsetY));
       }
-      ctx.restore();
+    });
+
+    function setupDrag(el, mob, speechEl, lines) {
+      el.addEventListener('pointerdown', (e) => {
+        mob.dragging = true;
+        el.setPointerCapture(e.pointerId);
+        const rect = el.getBoundingClientRect();
+        mob.dragOffsetX = e.clientX - rect.left;
+        mob.dragOffsetY = rect.bottom - e.clientY;
+        say(speechEl, lines[Math.floor(Math.random() * lines.length)]);
+      });
+
+      el.addEventListener('pointerup', (e) => {
+        if (!mob.dragging) return;
+        mob.dragging = false;
+        el.releasePointerCapture(e.pointerId);
+      });
+
+      el.addEventListener('dblclick', () => {
+        if (mob === ender) teleportEnderman();
+      });
     }
 
-    let petX = 140;
-    let petDir = 1;
-    let petState = 'walk'; // 'walk' | 'sit' | 'jump'
-    let petTimer = 0;
-    let animTick = 0;
-    let jumpY = 0;
-    const phrases = ["root@arch:~#", "GG WP!", "CS2 Server OK", "WorldSkills #2", "Meow!", "2560x1080"];
-
-    function petInteract() {
-      petState = 'jump';
-      petTimer = 35;
-      bubble.textContent = phrases[Math.floor(Math.random() * phrases.length)];
-      bubble.style.opacity = '1';
-      setTimeout(() => { bubble.style.opacity = '0'; }, 1800);
+    function say(speechEl, text) {
+      speechEl.textContent = text;
+      speechEl.style.opacity = '1';
+      clearTimeout(speechEl._t);
+      speechEl._t = setTimeout(() => { speechEl.style.opacity = '0'; }, 1800);
     }
 
-    function updatePet() {
-      animTick++;
+    setupDrag(enderEl, ender, enderSpeech, ["*vwoop*", "root@arch:~#", "Grass Block!", "WorldSkills #2", "Don't look at my eyes!", "Zzz..."]);
+    setupDrag(creeperEl, creeper, creeperSpeech, ["Tssss...", "CS2 Server OK!", "Boom?", "Aw man!"]);
+
+    function teleportEnderman() {
+      // Spawn burst of purple portal particles at old spot
+      for (let i = 0; i < 14; i++) {
+        ender.particles.push({
+          x: 16 + (Math.random() - 0.5) * 16,
+          y: 24 + (Math.random() - 0.5) * 24,
+          life: 20 + Math.random() * 15
+        });
+      }
+      ender.x = 40 + Math.random() * (window.innerWidth - 120);
+      ender.y = 0;
+      say(enderSpeech, "*VWOOP!*");
+    }
+
+    function spawnOrToggleCreeper() {
+      creeper.active = !creeper.active;
+      creeperEl.style.display = creeper.active ? 'block' : 'none';
+      document.getElementById('creeper-btn').textContent = creeper.active ? '- Creeper' : '+ Creeper';
+      if (creeper.active) say(creeperSpeech, "Tssss...");
+    }
+
+    // Draw Mini Enderman on 32x48 canvas
+    function drawEnderman(tick) {
+      eCtx.clearRect(0, 0, 32, 48);
+
+      // Ambient purple Ender particles
+      if (Math.random() < 0.25) {
+        ender.particles.push({
+          x: 6 + Math.random() * 20,
+          y: 10 + Math.random() * 32,
+          life: 24
+        });
+      }
+      for (let i = ender.particles.length - 1; i >= 0; i--) {
+        const p = ender.particles[i];
+        p.y -= 0.25;
+        p.life--;
+        eCtx.fillStyle = p.life % 2 === 0 ? '#d946ef' : '#a855f7';
+        eCtx.fillRect(Math.round(p.x), Math.round(p.y), 2, 2);
+        if (p.life <= 0) ender.particles.splice(i, 1);
+      }
+
+      eCtx.save();
+      if (ender.dir < 0) {
+        eCtx.translate(32, 0);
+        eCtx.scale(-1, 1);
+      }
+
+      const swing = (ender.state === 'walk' || ender.dragging) ? Math.round(Math.sin(tick * 0.22) * 3) : 0;
+
+      // Head (8x8 at top)
+      const headY = ender.dragging ? 8 : 10;
+      eCtx.fillStyle = '#111115';
+      eCtx.fillRect(12, headY, 8, 8);
+      eCtx.fillStyle = '#1c1c22';
+      eCtx.fillRect(12, headY, 8, 2);
+
+      // Glowing Purple Enderman Eyes
+      if (ender.state === 'sleep') {
+        eCtx.fillStyle = '#701a75';
+        eCtx.fillRect(13, headY + 4, 2, 1);
+        eCtx.fillRect(17, headY + 4, 2, 1);
+      } else {
+        eCtx.fillStyle = '#f5d0fe';
+        eCtx.fillRect(13, headY + 4, 3, 1);
+        eCtx.fillRect(17, headY + 4, 3, 1);
+        eCtx.fillStyle = '#d946ef';
+        eCtx.fillRect(14, headY + 4, 1, 1);
+        eCtx.fillRect(18, headY + 4, 1, 1);
+      }
+
+      // Open jaw when dragged
+      if (ender.dragging) {
+        eCtx.fillStyle = '#09090b';
+        eCtx.fillRect(13, headY + 7, 6, 3);
+      }
+
+      // Torso (slim black body)
+      const bodyY = headY + (ender.dragging ? 10 : 8);
+      eCtx.fillStyle = '#141419';
+      eCtx.fillRect(13, bodyY, 6, 11);
+
+      // Long thin legs (animated walking)
+      eCtx.fillStyle = '#0e0e12';
+      eCtx.fillRect(13 + swing, bodyY + 11, 2, 16);
+      eCtx.fillStyle = '#18181f';
+      eCtx.fillRect(17 - swing, bodyY + 11, 2, 16);
+
+      // Long thin arms holding a Minecraft Grass Block in front!
+      eCtx.fillStyle = '#18181f';
+      eCtx.fillRect(16, bodyY + 1, 2, 12);
+      eCtx.fillRect(18, bodyY + 10, 4, 2);
+
+      // Grass Block held in hands (6x6)
+      const bx = 20;
+      const by = bodyY + 8 + Math.round(swing * 0.3);
+      // Dirt base
+      eCtx.fillStyle = '#78350f';
+      eCtx.fillRect(bx, by + 2, 6, 4);
+      eCtx.fillStyle = '#92400e';
+      eCtx.fillRect(bx + 1, by + 3, 2, 2);
+      // Green grass top
+      eCtx.fillStyle = '#22c55e';
+      eCtx.fillRect(bx, by, 6, 2);
+      eCtx.fillStyle = '#16a34a';
+      eCtx.fillRect(bx + 1, by + 2, 1, 1);
+      eCtx.fillRect(bx + 4, by + 2, 1, 1);
+
+      eCtx.restore();
+    }
+
+    // Draw Mini Creeper on 32x48 canvas
+    function drawCreeper(tick) {
+      cCtx.clearRect(0, 0, 32, 48);
+      cCtx.save();
+      if (creeper.dir < 0) {
+        cCtx.translate(32, 0);
+        cCtx.scale(-1, 1);
+      }
+      const swing = (creeper.state === 'walk' || creeper.dragging) ? Math.round(Math.sin(tick * 0.25) * 2) : 0;
+
+      // Head (8x8)
+      const hy = 18;
+      cCtx.fillStyle = '#22c55e';
+      cCtx.fillRect(12, hy, 8, 8);
+      cCtx.fillStyle = '#4ade80';
+      cCtx.fillRect(12, hy, 3, 2);
+      cCtx.fillRect(17, hy + 5, 2, 2);
+      // Iconic Creeper Face
+      cCtx.fillStyle = '#09090b';
+      cCtx.fillRect(13, hy + 2, 2, 2);
+      cCtx.fillRect(17, hy + 2, 2, 2);
+      cCtx.fillRect(15, hy + 4, 2, 3);
+      cCtx.fillRect(14, hy + 5, 1, 2);
+      cCtx.fillRect(17, hy + 5, 1, 2);
+
+      // Body
+      cCtx.fillStyle = '#16a34a';
+      cCtx.fillRect(13, hy + 8, 6, 12);
+      cCtx.fillStyle = '#22c55e';
+      cCtx.fillRect(14, hy + 10, 3, 4);
+
+      // Stubby 4 legs
+      cCtx.fillStyle = '#15803d';
+      cCtx.fillRect(11 + swing, hy + 20, 4, 6);
+      cCtx.fillRect(17 - swing, hy + 20, 4, 6);
+
+      cCtx.restore();
+    }
+
+    let tick = 0;
+    function loop() {
+      tick++;
       const maxW = window.innerWidth - 64;
 
-      if (petState === 'walk') {
-        petX += petDir * 1.3;
-        if (petX > maxW) { petX = maxW; petDir = -1; }
-        if (petX < 16) { petX = 16; petDir = 1; }
-        if (Math.random() < 0.004) {
-          petState = 'sit';
-          petTimer = 90 + Math.floor(Math.random() * 80);
-        }
-        const f = Math.floor(animTick / 10) % 2 === 0 ? frameRun1 : frameRun2;
-        drawSprite(f, petDir < 0);
-        jumpY = 0;
-      } else if (petState === 'sit') {
-        drawSprite(frameSit, petDir < 0);
-        petTimer--;
-        if (petTimer <= 0) {
-          petState = 'walk';
-          if (Math.random() < 0.5) petDir *= -1;
-        }
-      } else if (petState === 'jump') {
-        jumpY = Math.sin((35 - petTimer) / 35 * Math.PI) * 18;
-        drawSprite(frameRun2, petDir < 0);
-        petTimer--;
-        if (petTimer <= 0) {
-          jumpY = 0;
-          petState = 'walk';
+      // Update Enderman physics & AI
+      if (!ender.dragging) {
+        if (ender.y > 0) {
+          ender.y = Math.max(0, ender.y - 6); // Gravity fall after drag
+        } else {
+          // If cursor is near bottom 140px of screen, gently walk towards cursor!
+          if (window.innerHeight - mouseY < 140 && Math.abs(mouseX - 32 - ender.x) > 28) {
+            ender.state = 'walk';
+            ender.dir = (mouseX - 32) > ender.x ? 1 : -1;
+            ender.x += ender.dir * 1.45;
+          } else if (ender.state === 'walk') {
+            ender.x += ender.dir * 0.95;
+            if (ender.x >= maxW) { ender.x = maxW; ender.dir = -1; }
+            if (ender.x <= 12) { ender.x = 12; ender.dir = 1; }
+            if (Math.random() < 0.004) {
+              ender.state = Math.random() < 0.35 ? 'sleep' : 'idle';
+              ender.timer = 110 + Math.random() * 90;
+              if (ender.state === 'sleep') say(enderSpeech, "Zzz...");
+            }
+          } else {
+            ender.timer--;
+            if (ender.timer <= 0) {
+              ender.state = 'walk';
+              if (Math.random() < 0.5) ender.dir *= -1;
+            }
+          }
         }
       }
 
-      actor.style.left = Math.round(petX) + 'px';
-      actor.style.bottom = Math.round(jumpY) + 'px';
-      requestAnimationFrame(updatePet);
+      enderEl.style.left = Math.round(ender.x) + 'px';
+      enderEl.style.bottom = Math.round(ender.y) + 'px';
+      drawEnderman(tick);
+
+      // Update Creeper if active
+      if (creeper.active) {
+        if (!creeper.dragging) {
+          if (creeper.y > 0) {
+            creeper.y = Math.max(0, creeper.y - 6);
+          } else {
+            creeper.x += creeper.dir * 0.75;
+            if (creeper.x >= maxW) { creeper.x = maxW; creeper.dir = -1; }
+            if (creeper.x <= 12) { creeper.x = 12; creeper.dir = 1; }
+          }
+        }
+        creeperEl.style.left = Math.round(creeper.x) + 'px';
+        creeperEl.style.bottom = Math.round(creeper.y) + 'px';
+        drawCreeper(tick);
+      }
+
+      requestAnimationFrame(loop);
     }
 
-    requestAnimationFrame(updatePet);
+    requestAnimationFrame(loop);
   </script>
 </body>
 </html>
